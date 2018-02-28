@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+                      
+    <changeSet id="1" author="bob">
+        <createTable tableName="shipwreck">
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(50)"></column>
+             <column name="CONDITIONAL" type="varchar(50)"></column>
+              <column name="depth" type="int"></column>
+               <column name="latitude" type="double"></column>
+               <column name="longitude" type="double"></column>
+              <column name="year_discovered" type="int"></column>
+            <column name="active" type="boolean" defaultValueBoolean="true"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog> 

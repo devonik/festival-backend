@@ -1,26 +1,34 @@
 package nik.dev.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Shipwreck {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
 	String name;
 	String description;
-	String condition;
+	String conditional;
 	Integer depth;
 	Double latitude;
 	Double longitude;
-	Integer yearDiscovered;
+	Integer year_discovered;
 
 	public Shipwreck() { }
 
-	public Shipwreck(Long id, String name, String description, String condition, Integer depth, Double latitude, Double longitude, Integer yearDiscovered) {
+	public Shipwreck(Long id, String name, String description, String conditional, Integer depth, Double latitude, Double longitude, Integer year_discovered) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.condition = condition;
+		this.conditional = conditional;
 		this.depth = depth;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.yearDiscovered = yearDiscovered;
+		this.year_discovered = year_discovered;
 	}
 
 	public Long getId() {
@@ -48,11 +56,11 @@ public class Shipwreck {
 	}
 
 	public String getCondition() {
-		return condition;
+		return conditional;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setCondition(String conditional) {
+		this.conditional = conditional;
 	}
 
 	public Integer getDepth() {
@@ -80,10 +88,10 @@ public class Shipwreck {
 	}
 
 	public Integer getYearDiscovered() {
-		return yearDiscovered;
+		return year_discovered;
 	}
 
-	public void setYearDiscovered(Integer yearDiscovered) {
-		this.yearDiscovered = yearDiscovered;
+	public void setYearDiscovered(Integer year_discovered) {
+		this.year_discovered = year_discovered;
 	}
 }

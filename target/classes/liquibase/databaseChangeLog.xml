@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <include file="changelogs/01-create-festival.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/01-create-festival-archive.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/01-create-festival-ticket-phase.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/01-create-festival-detail.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/01-create-festival-detail-images.xml" relativeToChangelogFile="true"/>
+    
+    <include file="changelogs/01-create-shipwreck-table.xml" relativeToChangelogFile="true"/>
+    
+    <changeSet author="nik (generated)" id="1519824713342-7">
+        <addUniqueConstraint columnNames="festival_id" constraintName="festival_id_UNIQUE" tableName="festival_detail"/>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1519824713342-8">
+        <addUniqueConstraint columnNames="homepage_url" constraintName="homepage_url_UNIQUE" tableName="festival"/>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1519824713342-9">
+        <addUniqueConstraint columnNames="name" constraintName="name_UNIQUE" tableName="festival"/>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1519824713342-10">
+        <createIndex indexName="fk_festival_detail_images_idx" tableName="festival_detail_images">
+            <column name="festival_detail_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1519824713342-11">
+        <createIndex indexName="fk_festival_idx" tableName="festival_ticket_phase">
+            <column name="festival_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1519824713342-12">
+        <addForeignKeyConstraint baseColumnNames="festival_id" baseTableName="festival_ticket_phase" constraintName="fk_festival" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="festival_id" referencedTableName="festival"/>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1519824713342-13">
+        <addForeignKeyConstraint baseColumnNames="festival_detail_id" baseTableName="festival_detail_images" constraintName="fk_festival_detail_images" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="festival_detail_id" referencedTableName="festival_detail"/>
+    </changeSet>
+    <changeSet author="nik" id="procedure-connect-new-festival-detail">
+		<createProcedure 
+	            dbms="mysql"
+	            encoding="utf8"
+	            procedureName="connect_new_festival_detail"
+	            schemaName="festivalticker">
+	            CREATE PROCEDURE `connect_new_festival_detail`(in new_festival_id INT,
+																			  out new_festival_detail_id INT)
+				BEGIN
+				  insert into festivalticker.festival_detail (festival_id) 
+				  values(new_festival_id);
+				  SET new_festival_detail_id = (Select d.festival_detail_id from festivalticker.festival_detail d where d.festival_id = new_festival_id);
+				  Update festivalticker.festival f set f.festival_detail_id = new_festival_detail_id where new_festival_id = f.festival_id; 
+				END;
+	    </createProcedure>
+    </changeSet>
+	
+</databaseChangeLog>

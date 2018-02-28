@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+                      
+     <changeSet id="6" author="nik">
+         <createTable tableName="festival_ticket_phase">
+            <column autoIncrement="true" name="festival_ticket_phase_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="festival_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="sold" type="BIT"/>
+            <column defaultValueBoolean="false" name="started" type="BIT"/>
+        </createTable>
+    </changeSet>
+    
+</databaseChangeLog> 

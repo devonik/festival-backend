@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+                      
+     <changeSet id="3" author="nik">
+        <createTable tableName="festival_archive">
+            <column defaultValueNumeric="0" name="festival_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="festival_detail_id" type="BIGINT"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thumbnail_image_url" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datum" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="homepage_url" type="VARCHAR(255)"/>
+            <column name="ticket_url" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    
+</databaseChangeLog> 
