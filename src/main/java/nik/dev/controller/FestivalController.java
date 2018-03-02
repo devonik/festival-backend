@@ -29,13 +29,13 @@ public class FestivalController {
 	private EntityManager entityManager;
 	
 	@RequestMapping(value="festivals", method= RequestMethod.GET)
-	public List<Festival> list(){
+	public Iterable<Festival> list(){
 		return festivalRepository.findAll();
 	}
 	
 	@RequestMapping(value="festivals", method = RequestMethod.POST)
 	public Festival create(@RequestBody Festival festival) {
-		Festival festivalReturn = festivalRepository.saveAndFlush(festival);
+		Festival festivalReturn = festivalRepository.save(festival);
 		//Connect to new Detail Page
 		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("connect_new_festival_detail");
 		storedProcedure.registerStoredProcedureParameter(1, Long.class, ParameterMode.IN);
@@ -55,9 +55,7 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.PUT)
 	public Festival update(@PathVariable Long id, @RequestBody Festival festival) {
-		Festival existingFestival = festivalRepository.findOne(id);
-		BeanUtils.copyProperties(festival, existingFestival);
-		return festivalRepository.saveAndFlush(existingFestival);
+		return festivalRepository.save(festival);
 	}
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.DELETE)
@@ -67,4 +65,8 @@ public class FestivalController {
 		return existingFestival;
 	}
 	
+	@RequestMapping(value="festivalsByUnSync", method= RequestMethod.GET)
+	public List<Festival> listUnsync(){
+		return festivalRepository.findBySyncStatus(false);
+	}
 }

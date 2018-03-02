@@ -26,6 +26,7 @@ public class Festival {
 		Date datum_end;
 		String homepage_url;
 		String ticket_url;
+		Boolean syncStatus;
 
 		public Festival() { }
 
@@ -36,7 +37,8 @@ public class Festival {
 						Date datum_start, 
 						Date datum_end,  
 						String homepage_url, 
-						String ticket_url) {
+						String ticket_url,
+						Boolean syncStatus) {
 			
 			this.festival_id = festival_id;
 			this.festival_detail_id = festival_detail_id;
@@ -46,6 +48,7 @@ public class Festival {
 			this.datum_end = datum_end;
 			this.homepage_url = homepage_url;
 			this.ticket_url = ticket_url;
+			this.syncStatus = syncStatus;
 		}
 
 		
@@ -108,6 +111,14 @@ public class Festival {
 
 		public void setTicket_url(String ticket_url) {
 			this.ticket_url = ticket_url;
+		}
+
+		public Boolean getSyncStatus() {
+			return syncStatus;
+		}
+
+		public void setSyncStatus(Boolean syncStatus) {
+			this.syncStatus = syncStatus;
 		}
 		
 		

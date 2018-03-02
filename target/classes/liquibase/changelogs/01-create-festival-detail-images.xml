@@ -18,6 +18,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="LONGTEXT"/>
+            <column defaultValueBoolean="false" name="sync_status" type="BIT"/>
         </createTable>
     </changeSet>
     

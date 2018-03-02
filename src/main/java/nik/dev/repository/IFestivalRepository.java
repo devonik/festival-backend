@@ -1,11 +1,13 @@
 package nik.dev.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
 
 import nik.dev.model.Festival;
 
-public interface IFestivalRepository extends JpaRepository<Festival, Long> {
+public interface IFestivalRepository extends CrudRepository<Festival, Long> {
 	
-	
+	List<Festival> findBySyncStatus(Boolean syncStatus);
 
 }

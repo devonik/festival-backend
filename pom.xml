@@ -45,15 +45,39 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-        
+    <dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>    
+    </dependency>  
+    <dependency>
+    	<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-starter-security</artifactId>
+    </dependency>  
   </dependencies>
   
  <build>
 	<plugins>
 		<plugin>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-maven-plugin</artifactId>
-		</plugin>
+	      <groupId>com.spotify</groupId>
+	      <artifactId>docker-maven-plugin</artifactId>
+	      <configuration>
+	        <imageName>festivalticker</imageName>
+	        <baseImage>java:8</baseImage>
+	        <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+	        <!-- copy the service's jar file from target into the root directory of the image --> 
+	        <resources>
+	           <resource>
+	             <targetPath>/</targetPath>
+	             <directory>${project.build.directory}</directory>
+	             <include>${project.build.finalName}.jar</include>
+	           </resource>
+	        </resources>
+	      </configuration>
+    	</plugin>
+    	<plugin>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-maven-plugin</artifactId>	
+    	</plugin>
 	</plugins>
  </build>
   
