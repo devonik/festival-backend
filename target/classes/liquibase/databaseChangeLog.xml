@@ -6,7 +6,6 @@
     <include file="changelogs/01-create-festival-detail.xml" relativeToChangelogFile="true"/>
     <include file="changelogs/01-create-festival-detail-images.xml" relativeToChangelogFile="true"/>
     
-    <include file="changelogs/01-create-shipwreck-table.xml" relativeToChangelogFile="true"/>
     
     <changeSet author="nik (generated)" id="1519824713342-7">
         <addUniqueConstraint columnNames="festival_id" constraintName="festival_id_UNIQUE" tableName="festival_detail"/>
