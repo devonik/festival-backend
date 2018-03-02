@@ -25,7 +25,7 @@
             </column>
             <column name="homepage_url" type="VARCHAR(255)"/>
             <column name="ticket_url" type="VARCHAR(255)"/>
-            <column defaultValueBoolean="false" name="sync_status" type="BIT"/>
+            <column defaultValue="no" name="sync_status" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>
     

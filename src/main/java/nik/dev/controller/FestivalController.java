@@ -67,6 +67,6 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivalsByUnSync", method= RequestMethod.GET)
 	public List<Festival> listUnsync(){
-		return festivalRepository.findBySyncStatus(false);
+		return festivalRepository.findBySyncStatus("no");
 	}
 }

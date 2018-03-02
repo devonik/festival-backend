@@ -8,6 +8,6 @@ import nik.dev.model.Festival;
 
 public interface IFestivalRepository extends CrudRepository<Festival, Long> {
 	
-	List<Festival> findBySyncStatus(Boolean syncStatus);
+	List<Festival> findBySyncStatus(String syncStatus);
 
 }

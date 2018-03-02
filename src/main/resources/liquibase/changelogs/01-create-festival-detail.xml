@@ -15,7 +15,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="LONGTEXT"/>
-            <column defaultValueBoolean="false" name="syncStatus" type="BIT"/>
+            <column defaultValue="no" name="sync_status" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>
     

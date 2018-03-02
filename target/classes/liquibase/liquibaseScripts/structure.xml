@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="nik (generated)" id="1519999348644-1">
+    <changeSet author="nik (generated)" id="1520031718309-1">
         <createTable tableName="festival">
             <column autoIncrement="true" name="festival_id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -20,10 +20,10 @@
             </column>
             <column name="homepage_url" type="VARCHAR(255)"/>
             <column name="ticket_url" type="VARCHAR(255)"/>
-            <column defaultValueBoolean="false" name="syncStatus" type="BIT"/>
+            <column defaultValue="no" name="sync_status" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-2">
+    <changeSet author="nik (generated)" id="1520031718309-2">
         <createTable tableName="festival_archive">
             <column defaultValueNumeric="0" name="festival_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -42,7 +42,7 @@
             <column name="ticket_url" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-3">
+    <changeSet author="nik (generated)" id="1520031718309-3">
         <createTable tableName="festival_detail">
             <column autoIncrement="true" name="festival_detail_id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -52,9 +52,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="LONGTEXT"/>
+            <column defaultValueBoolean="false" name="sync_status" type="BIT(1)"/>
         </createTable>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-4">
+    <changeSet author="nik (generated)" id="1520031718309-4">
         <createTable tableName="festival_detail_images">
             <column autoIncrement="true" name="festival_detail_images_id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -67,9 +68,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="LONGTEXT"/>
+            <column defaultValueBoolean="false" name="sync_status" type="BIT(1)"/>
         </createTable>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-5">
+    <changeSet author="nik (generated)" id="1520031718309-5">
         <createTable tableName="festival_ticket_phase">
             <column autoIncrement="true" name="festival_ticket_phase_id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -85,48 +87,32 @@
             </column>
             <column defaultValueBoolean="false" name="sold" type="BIT(1)"/>
             <column defaultValueBoolean="false" name="started" type="BIT(1)"/>
+            <column defaultValueBoolean="false" name="sync_status" type="BIT(1)"/>
         </createTable>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-6">
-        <createTable tableName="shipwreck">
-            <column autoIncrement="true" name="ID" type="INT">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="VARCHAR(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="description" type="VARCHAR(50)"/>
-            <column name="CONDITIONAL" type="VARCHAR(50)"/>
-            <column name="depth" type="INT"/>
-            <column name="latitude" type="DOUBLE"/>
-            <column name="longitude" type="DOUBLE"/>
-            <column name="year_discovered" type="INT"/>
-            <column defaultValueBoolean="true" name="active" type="BIT(1)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-7">
+    <changeSet author="nik (generated)" id="1520031718309-6">
         <addUniqueConstraint columnNames="festival_id" constraintName="festival_id_UNIQUE" tableName="festival_detail"/>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-8">
+    <changeSet author="nik (generated)" id="1520031718309-7">
         <addUniqueConstraint columnNames="homepage_url" constraintName="homepage_url_UNIQUE" tableName="festival"/>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-9">
+    <changeSet author="nik (generated)" id="1520031718309-8">
         <addUniqueConstraint columnNames="name" constraintName="name_UNIQUE" tableName="festival"/>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-10">
+    <changeSet author="nik (generated)" id="1520031718309-9">
         <createIndex indexName="fk_festival_detail_images_idx" tableName="festival_detail_images">
             <column name="festival_detail_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-11">
+    <changeSet author="nik (generated)" id="1520031718309-10">
         <createIndex indexName="fk_festival_idx" tableName="festival_ticket_phase">
             <column name="festival_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-12">
+    <changeSet author="nik (generated)" id="1520031718309-11">
         <addForeignKeyConstraint baseColumnNames="festival_id" baseTableName="festival_ticket_phase" constraintName="fk_festival" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="festival_id" referencedTableName="festival"/>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519999348644-13">
+    <changeSet author="nik (generated)" id="1520031718309-12">
         <addForeignKeyConstraint baseColumnNames="festival_detail_id" baseTableName="festival_detail_images" constraintName="fk_festival_detail_images" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="festival_detail_id" referencedTableName="festival_detail"/>
     </changeSet>
 </databaseChangeLog>

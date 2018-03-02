@@ -41,10 +41,10 @@
 	            CREATE PROCEDURE `connect_new_festival_detail`(in new_festival_id INT,
 																			  out new_festival_detail_id INT)
 				BEGIN
-				  insert into festivalticker.festival_detail (festival_id) 
+				  insert into Niklas.festival_detail (festival_id) 
 				  values(new_festival_id);
-				  SET new_festival_detail_id = (Select d.festival_detail_id from festivalticker.festival_detail d where d.festival_id = new_festival_id);
-				  Update festivalticker.festival f set f.festival_detail_id = new_festival_detail_id where new_festival_id = f.festival_id; 
+				  SET new_festival_detail_id = (Select d.festival_detail_id from Niklas.festival_detail d where d.festival_id = new_festival_id);
+				  Update Niklas.festival f set f.festival_detail_id = new_festival_detail_id where new_festival_id = f.festival_id; 
 				END;
 	    </createProcedure>
     </changeSet>

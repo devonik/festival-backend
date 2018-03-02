@@ -21,7 +21,7 @@
             </column>
             <column defaultValueBoolean="false" name="sold" type="BIT"/>
             <column defaultValueBoolean="false" name="started" type="BIT"/>
-            <column defaultValueBoolean="false" name="syncStatus" type="BIT"/>
+            <column defaultValue="no" name="sync_status" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>
     

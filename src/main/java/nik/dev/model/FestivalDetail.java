@@ -13,14 +13,16 @@ public class FestivalDetail {
 		Long festival_detail_images_id;
 		Long festival_id;
 		String description;
-
+		String syncStatus;
+		
 		public FestivalDetail() { }
 
-		public FestivalDetail(Long festival_detail_id, Long festival_detail_images_id, Long festival_id, String description) {
+		public FestivalDetail(Long festival_detail_id, Long festival_detail_images_id, Long festival_id, String description, String syncStatus) {
 			this.festival_detail_id = festival_detail_id;
 			this.festival_detail_images_id = festival_detail_images_id;
 			this.festival_id = festival_id;
 			this.description = description;
+			this.syncStatus = syncStatus;
 		}
 
 
@@ -50,6 +52,14 @@ public class FestivalDetail {
 
 		public void setDescription(String description) {
 			this.description = description;
+		}
+
+		public String getSyncStatus() {
+			return syncStatus;
+		}
+
+		public void setSyncStatus(String syncStatus) {
+			this.syncStatus = syncStatus;
 		}
 
 		
