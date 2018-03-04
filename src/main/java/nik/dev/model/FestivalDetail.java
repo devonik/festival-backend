@@ -13,15 +13,25 @@ public class FestivalDetail {
 		Long festival_detail_images_id;
 		Long festival_id;
 		String description;
+		String homepage_url;
+		String ticket_url;
 		String syncStatus;
 		
 		public FestivalDetail() { }
 
-		public FestivalDetail(Long festival_detail_id, Long festival_detail_images_id, Long festival_id, String description, String syncStatus) {
+		public FestivalDetail(Long festival_detail_id, 
+							  Long festival_detail_images_id, 
+							  Long festival_id, 
+							  String description,
+							  String homepage_url, 
+							  String ticket_url,
+							  String syncStatus) {
 			this.festival_detail_id = festival_detail_id;
 			this.festival_detail_images_id = festival_detail_images_id;
 			this.festival_id = festival_id;
 			this.description = description;
+			this.homepage_url = homepage_url;
+			this.ticket_url = ticket_url;
 			this.syncStatus = syncStatus;
 		}
 
@@ -52,6 +62,22 @@ public class FestivalDetail {
 
 		public void setDescription(String description) {
 			this.description = description;
+		}
+
+		public String getHomepage_url() {
+			return homepage_url;
+		}
+
+		public void setHomepage_url(String homepage_url) {
+			this.homepage_url = homepage_url;
+		}
+
+		public String getTicket_url() {
+			return ticket_url;
+		}
+
+		public void setTicket_url(String ticket_url) {
+			this.ticket_url = ticket_url;
 		}
 
 		public String getSyncStatus() {

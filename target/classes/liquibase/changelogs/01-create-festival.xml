@@ -23,8 +23,6 @@
             <column name="datum_end" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="homepage_url" type="VARCHAR(255)"/>
-            <column name="ticket_url" type="VARCHAR(255)"/>
             <column defaultValue="no" name="sync_status" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>

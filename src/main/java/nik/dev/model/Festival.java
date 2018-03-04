@@ -3,6 +3,7 @@ package nik.dev.model;
 import java.sql.Time;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,8 +27,6 @@ public class Festival {
 		Date datum_start;
 		@Temporal(TemporalType.TIMESTAMP)
 		Date datum_end;
-		String homepage_url;
-		String ticket_url;
 		String syncStatus;
 
 		public Festival() { }
@@ -37,9 +36,7 @@ public class Festival {
 						String name, 
 						String thumbnail_image_url, 
 						Date datum_start, 
-						Date datum_end,  
-						String homepage_url, 
-						String ticket_url,
+						Date datum_end,
 						String syncStatus) {
 			
 			this.festival_id = festival_id;
@@ -48,8 +45,6 @@ public class Festival {
 			this.thumbnail_image_url = thumbnail_image_url;
 			this.datum_start = datum_start;
 			this.datum_end = datum_end;
-			this.homepage_url = homepage_url;
-			this.ticket_url = ticket_url;
 			this.syncStatus = syncStatus;
 		}
 
@@ -97,22 +92,6 @@ public class Festival {
 
 		public void setDatum_end(Date datum_end) {
 			this.datum_end = datum_end;
-		}
-
-		public String getHomepage_url() {
-			return homepage_url;
-		}
-
-		public void setHomepage_url(String homepage_url) {
-			this.homepage_url = homepage_url;
-		}
-
-		public String getTicket_url() {
-			return ticket_url;
-		}
-
-		public void setTicket_url(String ticket_url) {
-			this.ticket_url = ticket_url;
 		}
 
 		public String getSyncStatus() {

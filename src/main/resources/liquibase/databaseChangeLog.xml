@@ -10,9 +10,6 @@
     <changeSet author="nik (generated)" id="1519824713342-7">
         <addUniqueConstraint columnNames="festival_id" constraintName="festival_id_UNIQUE" tableName="festival_detail"/>
     </changeSet>
-    <changeSet author="nik (generated)" id="1519824713342-8">
-        <addUniqueConstraint columnNames="homepage_url" constraintName="homepage_url_UNIQUE" tableName="festival"/>
-    </changeSet>
     <changeSet author="nik (generated)" id="1519824713342-9">
         <addUniqueConstraint columnNames="name" constraintName="name_UNIQUE" tableName="festival"/>
     </changeSet>
@@ -26,8 +23,11 @@
             <column name="festival_id"/>
         </createIndex>
     </changeSet>
+    <changeSet author="nik (generated)" id="1520177634089-10">
+        <addForeignKeyConstraint baseColumnNames="festival_id" baseTableName="festival_detail" constraintName="fk_festival_detail" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="festival_id" referencedTableName="festival"/>
+    </changeSet>
     <changeSet author="nik (generated)" id="1519824713342-12">
-        <addForeignKeyConstraint baseColumnNames="festival_id" baseTableName="festival_ticket_phase" constraintName="fk_festival" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="festival_id" referencedTableName="festival"/>
+        <addForeignKeyConstraint baseColumnNames="festival_id" baseTableName="festival_ticket_phase" constraintName="fk_festival_ticket" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="festival_id" referencedTableName="festival"/>
     </changeSet>
     <changeSet author="nik (generated)" id="1519824713342-13">
         <addForeignKeyConstraint baseColumnNames="festival_detail_id" baseTableName="festival_detail_images" constraintName="fk_festival_detail_images" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="festival_detail_id" referencedTableName="festival_detail"/>
