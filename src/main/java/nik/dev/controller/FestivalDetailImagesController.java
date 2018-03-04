@@ -16,7 +16,7 @@ import nik.dev.repository.IFestivalDetailImagesRepository;
 
 @RestController
 @RequestMapping("api/v1/")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "*")
 public class FestivalDetailImagesController {
 	@Autowired
 	private IFestivalDetailImagesRepository festivalDetailImagesRepository;

@@ -16,7 +16,7 @@ import nik.dev.repository.IFestivalDetailRepository;
 
 @RestController
 @RequestMapping("api/v1/")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class FestivalDetailController {
 	@Autowired
 	private IFestivalDetailRepository festivalDetailRepository;

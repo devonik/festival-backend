@@ -21,7 +21,7 @@ import nik.dev.repository.IFestivalRepository;
 
 @RestController
 @RequestMapping("api/v1/")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class FestivalController {
 	@Autowired
 	private IFestivalRepository festivalRepository;
@@ -67,6 +67,6 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivalsByUnSync", method= RequestMethod.GET)
 	public List<Festival> listUnsync(){
-		return festivalRepository.findBySyncStatus("no");
+		return festivalRepository.findBySyncStatus("no");                                                                                      
 	}
-}
+}                            
