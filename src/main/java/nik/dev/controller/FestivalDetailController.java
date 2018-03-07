@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import nik.dev.model.Festival;
 import nik.dev.model.FestivalDetail;
 import nik.dev.repository.IFestivalDetailRepository;
 
@@ -23,8 +24,8 @@ public class FestivalDetailController {
 	
 	@RequestMapping(value="festivalDetails", method = RequestMethod.POST)
 	public FestivalDetail create(@RequestBody FestivalDetail festival) {
-		System.out.println(festival);
-		return festivalDetailRepository.saveAndFlush(festival);
+		
+		return festivalDetailRepository.save(festival);
 	}
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.GET)
@@ -33,10 +34,9 @@ public class FestivalDetailController {
 	}
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.PUT)
-	public FestivalDetail update(@PathVariable Long id, @RequestBody FestivalDetail festival) {
-		FestivalDetail existingFestivalDetail = festivalDetailRepository.findOne(id);
-		BeanUtils.copyProperties(festival, existingFestivalDetail);
-		return festivalDetailRepository.saveAndFlush(existingFestivalDetail);
+	public FestivalDetail update(@RequestBody FestivalDetail festival) {
+		
+		return festivalDetailRepository.save(festival);
 	}
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.DELETE)
@@ -44,6 +44,10 @@ public class FestivalDetailController {
 		FestivalDetail existingFestivalDetail = festivalDetailRepository.findOne(id);
 		festivalDetailRepository.delete(existingFestivalDetail);
 		return existingFestivalDetail;
+	}
+	@RequestMapping(value="festivalDetailsByUnSync", method= RequestMethod.GET)
+	public List<FestivalDetail> listUnsync(){
+		return festivalDetailRepository.findBySyncStatus("no");                                                                                      
 	}
 	
 }

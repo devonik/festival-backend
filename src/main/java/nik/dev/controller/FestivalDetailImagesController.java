@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import nik.dev.model.FestivalDetail;
 import nik.dev.model.FestivalDetailImages;
 import nik.dev.repository.IFestivalDetailImagesRepository;
 
@@ -35,6 +36,10 @@ public class FestivalDetailImagesController {
 		FestivalDetailImages existingFestivalDetail = festivalDetailImagesRepository.findOne(id);
 		festivalDetailImagesRepository.delete(existingFestivalDetail);
 		return existingFestivalDetail;
+	}
+	@RequestMapping(value="festivalDetailImagesByUnSync", method= RequestMethod.GET)
+	public List<FestivalDetailImages> listUnsync(){
+		return festivalDetailImagesRepository.findBySyncStatus("no");                                                                                      
 	}
 	
 }
