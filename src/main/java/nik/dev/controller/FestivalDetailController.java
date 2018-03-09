@@ -27,7 +27,10 @@ public class FestivalDetailController {
 		
 		return festivalDetailRepository.save(festival);
 	}
-	
+	@RequestMapping(value="festivalDetails", method = RequestMethod.GET)
+	public Iterable<FestivalDetail> list() {
+		return festivalDetailRepository.findAll();
+	}
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.GET)
 	public FestivalDetail get(@PathVariable Long id) {
 		return festivalDetailRepository.findOne(id);
