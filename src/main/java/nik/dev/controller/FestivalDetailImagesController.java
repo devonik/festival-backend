@@ -26,6 +26,10 @@ public class FestivalDetailImagesController {
 	public FestivalDetailImages save (@RequestBody FestivalDetailImages images) {
 			return festivalDetailImagesRepository.save(images);
 	}
+	@RequestMapping(value="festivalDetailImages", method = RequestMethod.GET)
+	public Iterable<FestivalDetailImages> get() {
+		return festivalDetailImagesRepository.findAll();
+	}
 	@RequestMapping(value="festivalDetailImages/{id}", method = RequestMethod.GET)
 	public List<FestivalDetailImages> get(@PathVariable Long id) {
 		return festivalDetailImagesRepository.findByFestivalDetailId(id);
