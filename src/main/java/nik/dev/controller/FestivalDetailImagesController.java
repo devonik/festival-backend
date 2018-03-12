@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import nik.dev.model.Festival;
 import nik.dev.model.FestivalDetail;
 import nik.dev.model.FestivalDetailImages;
 import nik.dev.repository.IFestivalDetailImagesRepository;
+import nik.dev.repository.IFestivalRepository;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -21,10 +23,16 @@ import nik.dev.repository.IFestivalDetailImagesRepository;
 public class FestivalDetailImagesController {
 	@Autowired
 	private IFestivalDetailImagesRepository festivalDetailImagesRepository;
+	@Autowired
+	private PushController pushController;
+	@Autowired
+	private IFestivalRepository festivalRepository;
 	
 	@RequestMapping(value="festivalDetailImages/", method = RequestMethod.POST)
 	public FestivalDetailImages save (@RequestBody FestivalDetailImages images) {
-			return festivalDetailImagesRepository.save(images);
+		Festival festival = festivalRepository.findByFestivalDetailId(images.getFestivalDetailId());
+		pushController.send("Aenderungen des Festivals: "+festival.getName(), "Es kam ein neues Bild hinzu/wurde geändert");
+		return festivalDetailImagesRepository.save(images);
 	}
 	@RequestMapping(value="festivalDetailImages", method = RequestMethod.GET)
 	public Iterable<FestivalDetailImages> list() {

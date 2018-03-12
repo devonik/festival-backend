@@ -17,6 +17,8 @@
             <column name="description" type="LONGTEXT"/>
             <column name="homepage_url" type="VARCHAR(255)"/>
             <column name="ticket_url" type="VARCHAR(255)"/>
+            <column name="geo_latitude" type="DOUBLE"/>
+            <column name="geo_longitude" type="DOUBLE"/>
             <column defaultValue="no" name="sync_status" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>

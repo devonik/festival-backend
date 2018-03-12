@@ -20,7 +20,8 @@ public class Festival {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
 		Long festival_id;
-		Long festival_detail_id;
+		@Column(name="festival_detail_id")
+		Long festivalDetailId;
 		String name;
 		String thumbnail_image_url;
 		@Temporal(TemporalType.TIMESTAMP)
@@ -32,7 +33,7 @@ public class Festival {
 		public Festival() { }
 
 		public Festival(Long festival_id, 
-						Long festival_detail_id, 
+						Long festivalDetailId, 
 						String name, 
 						String thumbnail_image_url, 
 						Date datum_start, 
@@ -40,7 +41,7 @@ public class Festival {
 						String syncStatus) {
 			
 			this.festival_id = festival_id;
-			this.festival_detail_id = festival_detail_id;
+			this.festivalDetailId = festivalDetailId;
 			this.name = name;
 			this.thumbnail_image_url = thumbnail_image_url;
 			this.datum_start = datum_start;
@@ -55,11 +56,11 @@ public class Festival {
 		}
 
 		public Long getFestival_detail_id() {
-			return festival_detail_id;
+			return festivalDetailId;
 		}
 
 		public void setFestival_detail_id(Long festival_detail_id) {
-			this.festival_detail_id = festival_detail_id;
+			this.festivalDetailId = festival_detail_id;
 		}
 
 		public String getName() {

@@ -1,5 +1,6 @@
 package nik.dev.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -27,6 +28,8 @@ public class FestivalController {
 	private IFestivalRepository festivalRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
+	@Autowired
+	private PushController pushController;
 	
 	@RequestMapping(value="festivals", method= RequestMethod.GET)
 	public Iterable<Festival> list(){
@@ -44,7 +47,7 @@ public class FestivalController {
 		storedProcedure.execute();
 		//New generated festival_detail_id
 		festivalReturn.setFestival_detail_id((Long) storedProcedure.getOutputParameterValue(2));
-		
+		pushController.send("Es kam eines neues Festival hinzu!", festival.getName()+": "+new SimpleDateFormat("dd.MM.").format(festival.getDatum_start()));
 		return festivalReturn;
 	}
 	

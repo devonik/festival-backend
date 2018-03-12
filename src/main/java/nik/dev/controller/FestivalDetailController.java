@@ -14,17 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import nik.dev.model.Festival;
 import nik.dev.model.FestivalDetail;
 import nik.dev.repository.IFestivalDetailRepository;
+import nik.dev.repository.IFestivalRepository;
 
 @RestController
 @RequestMapping("api/v1/")
 @CrossOrigin(origins = "*")
 public class FestivalDetailController {
 	@Autowired
+	private IFestivalRepository festivalRepository;
+	@Autowired
 	private IFestivalDetailRepository festivalDetailRepository;
+	@Autowired
+	private PushController pushController;
 	
 	@RequestMapping(value="festivalDetails", method = RequestMethod.POST)
 	public FestivalDetail create(@RequestBody FestivalDetail festival) {
-		
 		return festivalDetailRepository.save(festival);
 	}
 	@RequestMapping(value="festivalDetails", method = RequestMethod.GET)
@@ -37,9 +41,10 @@ public class FestivalDetailController {
 	}
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.PUT)
-	public FestivalDetail update(@RequestBody FestivalDetail festival) {
-		
-		return festivalDetailRepository.save(festival);
+	public FestivalDetail update(@RequestBody FestivalDetail festivalDetail) {
+		Festival festival = festivalRepository.findOne(festivalDetail.getFestival_id());
+		pushController.send("Aenderungen des Festivals: "+festival.getName(), "Die Details haben sich geändert");
+		return festivalDetailRepository.save(festivalDetail);
 	}
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.DELETE)

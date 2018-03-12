@@ -15,6 +15,8 @@ public class FestivalDetail {
 		String description;
 		String homepage_url;
 		String ticket_url;
+		Double geoLatitude;
+		Double geoLongitude;
 		String syncStatus;
 		
 		public FestivalDetail() { }
@@ -25,6 +27,8 @@ public class FestivalDetail {
 							  String description,
 							  String homepage_url, 
 							  String ticket_url,
+							  Double geoLatitude,
+							  Double geoLongitude,
 							  String syncStatus) {
 			this.festival_detail_id = festival_detail_id;
 			this.festival_detail_images_id = festival_detail_images_id;
@@ -32,6 +36,8 @@ public class FestivalDetail {
 			this.description = description;
 			this.homepage_url = homepage_url;
 			this.ticket_url = ticket_url;
+			this.geoLatitude = geoLatitude;
+			this.geoLongitude = geoLongitude;
 			this.syncStatus = syncStatus;
 		}
 
@@ -78,6 +84,22 @@ public class FestivalDetail {
 
 		public void setTicket_url(String ticket_url) {
 			this.ticket_url = ticket_url;
+		}
+
+		public Double getGeoLatitude() {
+			return geoLatitude;
+		}
+
+		public void setGeoLatitude(Double geoLatitude) {
+			this.geoLatitude = geoLatitude;
+		}
+
+		public Double getGeoLongitude() {
+			return geoLongitude;
+		}
+
+		public void setGeoLongitude(Double geoLongitude) {
+			this.geoLongitude = geoLongitude;
 		}
 
 		public String getSyncStatus() {
