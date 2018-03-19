@@ -42,8 +42,8 @@ public class FestivalDetailController {
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.PUT)
 	public FestivalDetail update(@RequestBody FestivalDetail festivalDetail) {
-		Festival festival = festivalRepository.findOne(festivalDetail.getFestival_id());
-		pushController.send("Aenderungen des Festivals: "+festival.getName(), "Die Details haben sich geändert");
+		//Festival festival = festivalRepository.findOne(festivalDetail.getFestival_id());
+		//pushController.send("Aenderungen des Festivals: "+festival.getName(), "Die Details haben sich geändert");
 		return festivalDetailRepository.save(festivalDetail);
 	}
 	

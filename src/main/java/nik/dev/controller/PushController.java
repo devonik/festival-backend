@@ -35,6 +35,7 @@ public class PushController {
 		JSONObject notification = new JSONObject();
 		notification.put("title", titleText);
 		notification.put("body", bodyText);
+		notification.put("sound", "default");
 		
 		JSONObject data = new JSONObject();
 		data.put("Key-1", "JSA Data 1");
