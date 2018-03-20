@@ -39,7 +39,7 @@ public class AdminController {
             String token = jwtGenerator.generate(loginDto);
             JSONObject resp = new JSONObject();
             resp.put("token", token);
-            resp.put("expiredIn", jwtGenerator.getExpiredDate().toLocaleString());
+            resp.put("expiredIn", jwtGenerator.getExpiresMinute());
             resp.put("id", correspondingAdmin.getId());
             resp.put("email", correspondingAdmin.getEmail());
             resp.put("username", correspondingAdmin.getUsername());

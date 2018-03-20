@@ -1,7 +1,4 @@
 package nik.dev.model.Authentication;
-import java.util.Calendar;
-import java.util.Date;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,13 +17,7 @@ public class UserJWTGenerator {
                 .compact();
 
     }
-	public Date getExpiredDate() {
-		return calculateExpiryDate(EXPIRATION);
+	public Integer getExpiresMinute() {
+		return EXPIRATION;
 	}
-	private Date calculateExpiryDate(final int expireTimeInMinutes) {
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(new Date().getTime());
-        cal.add(Calendar.MINUTE, expireTimeInMinutes);
-        return cal.getTime();
-    }
 }
