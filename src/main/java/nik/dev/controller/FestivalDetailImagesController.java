@@ -30,8 +30,8 @@ public class FestivalDetailImagesController {
 	
 	@RequestMapping(value="festivalDetailImages/", method = RequestMethod.POST)
 	public FestivalDetailImages save (@RequestBody FestivalDetailImages images) {
-		Festival festival = festivalRepository.findByFestivalDetailId(images.getFestivalDetailId());
-		pushController.send("Aenderungen des Festivals: "+festival.getName(), "Es kam ein neues Bild hinzu/wurde geändert");
+		//Festival festival = festivalRepository.findByFestivalDetailId(images.getFestivalDetailId());
+		//pushController.send("Aenderungen des Festivals: "+festival.getName(), "Es kam ein neues Bild hinzu/wurde geändert");
 		return festivalDetailImagesRepository.save(images);
 	}
 	@RequestMapping(value="festivalDetailImages", method = RequestMethod.GET)
