@@ -30,7 +30,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String handlePOST(@RequestBody LoginDto loginDto) {
+    public String login(@RequestBody LoginDto loginDto) {
 
         Admin correspondingAdmin = adminRepository.findByUsername(loginDto.getUsername());
         if (correspondingAdmin == null) return null;
@@ -39,6 +39,7 @@ public class AdminController {
             String token = jwtGenerator.generate(loginDto);
             JSONObject resp = new JSONObject();
             resp.put("token", token);
+            resp.put("expiredIn", jwtGenerator.getExpiredDate().toLocaleString());
             resp.put("id", correspondingAdmin.getId());
             resp.put("email", correspondingAdmin.getEmail());
             resp.put("username", correspondingAdmin.getUsername());
@@ -50,7 +51,7 @@ public class AdminController {
     }
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Admin createUser(@RequestBody Admin admin) {
+    public Admin register(@RequestBody Admin admin) {
 
         Admin existingUser = adminRepository.findByUsername(admin.getUsername());
 
