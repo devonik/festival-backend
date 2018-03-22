@@ -20,7 +20,7 @@ import nik.dev.service.AndroidPushNotificationsService;
 @RestController
 @RequestMapping("api/v1/push/")
 public class PushController {
-	private final String TOPIC = "JavaSampleApproach";
+	private final String TOPIC = "news";
 	
 	@Autowired
 	AndroidPushNotificationsService androidPushNotificationsService;
