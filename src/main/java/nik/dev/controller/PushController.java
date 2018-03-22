@@ -38,8 +38,7 @@ public class PushController {
 		notification.put("sound", "default");
 		
 		JSONObject data = new JSONObject();
-		data.put("Key-1", "JSA Data 1");
-		data.put("Key-2", "JSA Data 2");
+		data.put("devnik.trancefestivalticker.KEY_SYNC_REQUEST", "sync");
  
 		body.put("notification", notification);
 		body.put("data", data);
