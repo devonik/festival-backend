@@ -47,7 +47,7 @@ public class FestivalController {
 		storedProcedure.execute();
 		//New generated festival_detail_id
 		festivalReturn.setFestival_detail_id((Long) storedProcedure.getOutputParameterValue(2));
-		pushController.send("Es kam eines neues Festival hinzu!", festival.getName()+": "+new SimpleDateFormat("dd.MM.").format(festival.getDatum_start()));
+		//pushController.send("Es kam eines neues Festival hinzu!", festival.getName()+": "+new SimpleDateFormat("dd.MM.").format(festival.getDatum_start()));
 		return festivalReturn;
 	}
 	
@@ -68,6 +68,7 @@ public class FestivalController {
 		return existingFestival;
 	}
 	
+	//@TODO kann weg
 	@RequestMapping(value="festivalsByUnSync", method= RequestMethod.GET)
 	public List<Festival> listUnsync(){
 		return festivalRepository.findBySyncStatus("no");                                                                                      
