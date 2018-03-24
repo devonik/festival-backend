@@ -18,6 +18,7 @@ public class FestivalDetailImages {
 		String title;
 		String url;
 		String description;
+		//@TODO refactor: sync Status weg 
 		String syncStatus;
 
 		protected FestivalDetailImages() { }

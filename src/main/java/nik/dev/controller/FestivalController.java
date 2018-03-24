@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysql.jdbc.log.Log;
+
 import nik.dev.model.Festival;
 import nik.dev.repository.IFestivalRepository;
 
@@ -72,5 +74,16 @@ public class FestivalController {
 	@RequestMapping(value="festivalsByUnSync", method= RequestMethod.GET)
 	public List<Festival> listUnsync(){
 		return festivalRepository.findBySyncStatus("no");                                                                                      
+	}
+	@RequestMapping(value="festivals/setAllSynced", method= RequestMethod.GET)
+	public Integer setAllSynced(){
+		List<Festival> unsyncedFestivals = festivalRepository.findBySyncStatus("no");
+		Integer unsynchedCount = 0;
+		for(Festival item: unsyncedFestivals) {
+			item.setSyncStatus("yes");
+			update(item.getFestival_id(), item);
+			unsynchedCount++;
+		}
+		return unsynchedCount;
 	}
 }                            
