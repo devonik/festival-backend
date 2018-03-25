@@ -38,8 +38,7 @@
 		<createProcedure 
 	            dbms="mysql"
 	            encoding="utf8"
-	            procedureName="connect_new_festival_detail"
-	            schemaName="niklas">
+	            procedureName="connect_new_festival_detail">
 	            CREATE PROCEDURE `connect_new_festival_detail`(in new_festival_id INT,
 																			  out new_festival_detail_id INT)
 				BEGIN
