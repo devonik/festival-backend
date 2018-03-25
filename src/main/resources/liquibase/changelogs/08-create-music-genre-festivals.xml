@@ -1,0 +1,41 @@
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+                      
+     <changeSet id="8" author="nik">
+        <createTable tableName="music_genre_festivals">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="festival_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="music_genre_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="nik (generated)" id="1521992668526-17">
+        <addForeignKeyConstraint baseColumnNames="festival_id" baseTableName="music_genre_festivals" constraintName="fk_festival_genre" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="festival_id" referencedTableName="festival"/>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1521992668526-19">
+        <addForeignKeyConstraint baseColumnNames="music_genre_id" baseTableName="music_genre_festivals" constraintName="fk_genre_festival" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="music_genre_id" referencedTableName="music_genre"/>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1521992668526-12">
+        <createIndex indexName="fk_festival_genre_idx" tableName="music_genre_festivals">
+            <column name="festival_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="nik (generated)" id="1521992668526-14">
+       <createIndex indexName="fk_genre_festival_idx" tableName="music_genre_festivals">
+           <column name="music_genre_id"/>
+       </createIndex>
+   	</changeSet>
+</databaseChangeLog> 

@@ -7,6 +7,9 @@
     <include file="changelogs/01-create-festival-detail-images.xml" relativeToChangelogFile="true"/>
     <include file="changelogs/01-create-admin.xml" relativeToChangelogFile="true"/>
     
+    <include file="changelogs/01-create-music-genre.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/08-create-music-genre-festivals.xml" relativeToChangelogFile="true"/>
+    
     <changeSet author="nik (generated)" id="1519824713342-7">
         <addUniqueConstraint columnNames="festival_id" constraintName="festival_id_UNIQUE" tableName="festival_detail"/>
     </changeSet>
@@ -37,7 +40,7 @@
 	            dbms="mysql"
 	            encoding="utf8"
 	            procedureName="connect_new_festival_detail"
-	            schemaName="festivalticker">
+	            schemaName="niklas">
 	            CREATE PROCEDURE `connect_new_festival_detail`(in new_festival_id INT,
 																			  out new_festival_detail_id INT)
 				BEGIN
