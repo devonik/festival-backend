@@ -2,7 +2,6 @@ package nik.dev.controller;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import nik.dev.model.Festival;
-import nik.dev.model.FestivalDetail;
 import nik.dev.model.FestivalDetailImages;
 import nik.dev.repository.IFestivalDetailImagesRepository;
-import nik.dev.repository.IFestivalRepository;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -23,10 +19,6 @@ import nik.dev.repository.IFestivalRepository;
 public class FestivalDetailImagesController {
 	@Autowired
 	private IFestivalDetailImagesRepository festivalDetailImagesRepository;
-	@Autowired
-	private PushController pushController;
-	@Autowired
-	private IFestivalRepository festivalRepository;
 	
 	@RequestMapping(value="festivalDetailImages/", method = RequestMethod.POST)
 	public FestivalDetailImages save (@RequestBody FestivalDetailImages images) {

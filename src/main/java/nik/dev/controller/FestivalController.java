@@ -1,14 +1,13 @@
 package nik.dev.controller;
 
-import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mysql.jdbc.log.Log;
 
 import nik.dev.model.Festival;
+import nik.dev.model.MusicGenre;
 import nik.dev.repository.IFestivalRepository;
+import nik.dev.repository.IMusicGenreRepository;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -28,10 +28,11 @@ import nik.dev.repository.IFestivalRepository;
 public class FestivalController {
 	@Autowired
 	private IFestivalRepository festivalRepository;
+	@Autowired
+	private IMusicGenreRepository musicGenreRepository;
+	
 	@PersistenceContext
 	private EntityManager entityManager;
-	@Autowired
-	private PushController pushController;
 	
 	@RequestMapping(value="festivals", method= RequestMethod.GET)
 	public Iterable<Festival> list(){
@@ -40,7 +41,16 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivals", method = RequestMethod.POST)
 	public Festival create(@RequestBody Festival festival) {
+		Set<MusicGenre> list = new HashSet<MusicGenre>();
+		for(Long itemId:festival.getMusicGenreIds()) {
+			MusicGenre genre = musicGenreRepository.findOne(itemId);
+			if(genre != null) {
+				list.add(genre);
+			}
+		}
+		festival.setMusicGenres(list);
 		Festival festivalReturn = festivalRepository.save(festival);
+		
 		//Connect to new Detail Page
 		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("connect_new_festival_detail");
 		storedProcedure.registerStoredProcedureParameter(1, Long.class, ParameterMode.IN);
@@ -50,6 +60,7 @@ public class FestivalController {
 		//New generated festival_detail_id
 		festivalReturn.setFestival_detail_id((Long) storedProcedure.getOutputParameterValue(2));
 		//pushController.send("Es kam eines neues Festival hinzu!", festival.getName()+": "+new SimpleDateFormat("dd.MM.").format(festival.getDatum_start()));
+		
 		return festivalReturn;
 	}
 	

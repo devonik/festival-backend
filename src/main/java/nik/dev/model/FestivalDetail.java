@@ -17,6 +17,7 @@ public class FestivalDetail {
 		String ticket_url;
 		Double geoLatitude;
 		Double geoLongitude;
+		//@TODO refactor: sync Status weg 
 		String syncStatus;
 		
 		public FestivalDetail() { }

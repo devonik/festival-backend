@@ -13,6 +13,7 @@ import nik.dev.model.Authentication.LoginDto;
 import nik.dev.model.Authentication.UserJWTGenerator;
 import nik.dev.repository.IAdminRepository;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +39,18 @@ public class AdminController {
         if (BCrypt.checkpw(loginDto.getPassword(), correspondingAdmin.getPassword())) {
             String token = jwtGenerator.generate(loginDto);
             JSONObject resp = new JSONObject();
-            resp.put("token", token);
-            resp.put("expiredIn", jwtGenerator.getExpiresMinute());
-            resp.put("id", correspondingAdmin.getId());
-            resp.put("email", correspondingAdmin.getEmail());
-            resp.put("username", correspondingAdmin.getUsername());
-            resp.put("company", correspondingAdmin.getCompany());
+            try {
+				resp.put("token", token);
+				resp.put("expiredIn", jwtGenerator.getExpiresMinute());
+	            resp.put("id", correspondingAdmin.getId());
+	            resp.put("email", correspondingAdmin.getEmail());
+	            resp.put("username", correspondingAdmin.getUsername());
+	            resp.put("company", correspondingAdmin.getCompany());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
             return resp.toString();
         } else {
             return null;
