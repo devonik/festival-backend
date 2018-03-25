@@ -71,6 +71,14 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.PUT)
 	public Festival update(@PathVariable Long id, @RequestBody Festival festival) {
+		Set<MusicGenre> list = new HashSet<MusicGenre>();
+		for(Long itemId:festival.getMusicGenreIds()) {
+			MusicGenre genre = musicGenreRepository.findOne(itemId);
+			if(genre != null) {
+				list.add(genre);
+			}
+		}
+		festival.setMusicGenres(list);
 		return festivalRepository.save(festival);
 	}
 	
