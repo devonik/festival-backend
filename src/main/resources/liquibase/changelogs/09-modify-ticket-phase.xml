@@ -19,9 +19,9 @@
 </changeSet>
 <changeSet author="grn" id="modifyTicketPhaseStarted">
 	<dropColumn columnName="started"
-            schemaName="niklas"
+            schemaName="Niklas"
             tableName="festival_ticket_phase"/>
-    <addColumn schemaName="niklas"
+    <addColumn schemaName="Niklas"
             tableName="festival_ticket_phase">
         <column name="started" type="varchar(5)" defaultValue="no"/>
     </addColumn>
