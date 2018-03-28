@@ -1,9 +1,11 @@
 package nik.dev.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,10 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="festival")
@@ -42,6 +47,13 @@ public class Festival{
 	            inverseJoinColumns = { @JoinColumn(name = "music_genre_id") })
 		
 	    private Set<MusicGenre> musicGenres;
+		
+		@OneToMany(orphanRemoval = true,
+				cascade = CascadeType.ALL,
+	            mappedBy = "festival")
+		@JsonManagedReference
+	    private Set<FestivalTicketPhase> ticketPhases;
+		
 		@Transient
 		private List<Long> musicGenreIds;
 		
@@ -64,6 +76,14 @@ public class Festival{
 		}
 
 		
+
+		public Set<FestivalTicketPhase> getTicketPhases() {
+			return ticketPhases;
+		}
+
+		public void setTicketPhases(Set<FestivalTicketPhase> ticketPhases) {
+			this.ticketPhases = ticketPhases;
+		}
 
 		public Long getFestival_id() {
 			return festival_id;

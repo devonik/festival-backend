@@ -1,0 +1,34 @@
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+                      
+<changeSet author="grn" id="modifyTicketPhaseSold">
+	<dropColumn catalogName="niklas"
+            columnName="sold"
+            schemaName="niklas"
+            tableName="festival_ticket_phase"/>
+    <addColumn catalogName="niklas"
+            schemaName="niklas"
+            tableName="festival_ticket_phase">
+        <column name="sold" type="varchar(5)" defaultValue="no"/>
+    </addColumn>
+</changeSet>
+<changeSet author="grn" id="modifyTicketPhaseStarted">
+	<dropColumn catalogName="niklas"
+            columnName="started"
+            schemaName="niklas"
+            tableName="festival_ticket_phase"/>
+    <addColumn catalogName="niklas"
+            schemaName="niklas"
+            tableName="festival_ticket_phase">
+        <column name="started" type="varchar(5)" defaultValue="no"/>
+    </addColumn>
+</changeSet>
+
+</databaseChangeLog> 

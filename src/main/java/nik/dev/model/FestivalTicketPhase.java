@@ -1,38 +1,48 @@
 package nik.dev.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class FestivalTicketPhase {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
 		Long festival_ticket_phase_id;
-		Long festival_id;
+		//Long festival_id;
+		@ManyToOne(fetch = FetchType.EAGER)
+	    @JoinColumn(name = "festival_id", nullable = false)
+		@JsonBackReference
+		private Festival festival;
 		String title;
 		Double price;
-		Integer sold;
-		Integer started;
+		String syncStatus;
+		String sold;
+		String started;
 
 		public FestivalTicketPhase() { }
 
-		public FestivalTicketPhase(Long festival_ticket_phase_id, Long festival_id, String title, Double price, Integer sold, Integer started) {
+		public FestivalTicketPhase(Long festival_ticket_phase_id, String title, Double price, String sold, String started) {
 			this.festival_ticket_phase_id = festival_ticket_phase_id;
-			this.festival_id = festival_id;
 			this.title = title;
 			this.price = price;
 			this.sold = sold;
 			this.started = started;
 		}
 
-		public Long getFestival_id() {
-			return festival_id;
+		public Festival getFestival() {
+			return festival;
 		}
 
-		public void setFestival_id(Long festival_id) {
-			this.festival_id = festival_id;
+		public void setFestival(Festival festival) {
+			this.festival = festival;
 		}
 
 		public String getTitle() {
@@ -51,20 +61,28 @@ public class FestivalTicketPhase {
 			this.price = price;
 		}
 
-		public Integer getSold() {
+		public String getSold() {
 			return sold;
 		}
 
-		public void setSold(Integer sold) {
+		public void setSold(String sold) {
 			this.sold = sold;
 		}
 
-		public Integer getStarted() {
+		public String getStarted() {
 			return started;
 		}
 
-		public void setStarted(Integer started) {
+		public void setStarted(String started) {
 			this.started = started;
+		}
+
+		public String getSyncStatus() {
+			return syncStatus;
+		}
+
+		public void setSyncStatus(String syncStatus) {
+			this.syncStatus = syncStatus;
 		}
 
 		public Long getFestival_ticket_phase_id() {

@@ -9,6 +9,9 @@
     
     <include file="changelogs/01-create-music-genre.xml" relativeToChangelogFile="true"/>
     <include file="changelogs/08-create-music-genre-festivals.xml" relativeToChangelogFile="true"/>
+    
+    <include file="changelogs/09-modify-ticket-phase.xml" relativeToChangelogFile="true"/>
+    
     <changeSet author="nik (generated)" id="1519824713342-7">
         <addUniqueConstraint columnNames="festival_id" constraintName="festival_id_UNIQUE" tableName="festival_detail"/>
     </changeSet>
