@@ -10,19 +10,15 @@
                       
 <changeSet author="grn" id="modifyTicketPhaseSold">
 	<dropColumn columnName="sold"
-            schemaName="niklas"
             tableName="festival_ticket_phase"/>
-    <addColumn schemaName="niklas"
-            tableName="festival_ticket_phase">
+    <addColumn tableName="festival_ticket_phase">
         <column name="sold" type="varchar(5)" defaultValue="no"/>
     </addColumn>
 </changeSet>
 <changeSet author="grn" id="modifyTicketPhaseStarted">
 	<dropColumn columnName="started"
-            schemaName="Niklas"
             tableName="festival_ticket_phase"/>
-    <addColumn schemaName="Niklas"
-            tableName="festival_ticket_phase">
+    <addColumn tableName="festival_ticket_phase">
         <column name="started" type="varchar(5)" defaultValue="no"/>
     </addColumn>
 </changeSet>
