@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import nik.dev.model.MusicGenre;
+import nik.dev.model.MusicGenreFestivals;
+import nik.dev.repository.IMusicGenreFestivalsRepository;
 import nik.dev.repository.IMusicGenreRepository;
 
 @RestController
@@ -17,10 +19,16 @@ import nik.dev.repository.IMusicGenreRepository;
 public class MusicGenreController {
 	@Autowired
 	private IMusicGenreRepository musicGenreRepository;
+	@Autowired
+	private IMusicGenreFestivalsRepository musicGenreFestivalsRepository;
 	
 	@RequestMapping(value="musicGenre", method= RequestMethod.GET)
 	public Iterable<MusicGenre> list(){
 		return musicGenreRepository.findAll();
+	}
+	@RequestMapping(value="musicGenreFestivals", method= RequestMethod.GET)
+	public Iterable<MusicGenreFestivals> listGenreFestivals(){
+		return musicGenreFestivalsRepository.findAll();
 	}
 	@RequestMapping(value="musicGenre", method = RequestMethod.POST)
 	public MusicGenre create(@RequestBody MusicGenre musicGenre) {
