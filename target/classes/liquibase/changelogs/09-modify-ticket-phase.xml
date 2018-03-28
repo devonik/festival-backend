@@ -9,23 +9,19 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
                       
 <changeSet author="grn" id="modifyTicketPhaseSold">
-	<dropColumn catalogName="niklas"
-            columnName="sold"
+	<dropColumn columnName="sold"
             schemaName="niklas"
             tableName="festival_ticket_phase"/>
-    <addColumn catalogName="niklas"
-            schemaName="niklas"
+    <addColumn schemaName="niklas"
             tableName="festival_ticket_phase">
         <column name="sold" type="varchar(5)" defaultValue="no"/>
     </addColumn>
 </changeSet>
 <changeSet author="grn" id="modifyTicketPhaseStarted">
-	<dropColumn catalogName="niklas"
-            columnName="started"
+	<dropColumn columnName="started"
             schemaName="niklas"
             tableName="festival_ticket_phase"/>
-    <addColumn catalogName="niklas"
-            schemaName="niklas"
+    <addColumn schemaName="niklas"
             tableName="festival_ticket_phase">
         <column name="started" type="varchar(5)" defaultValue="no"/>
     </addColumn>
