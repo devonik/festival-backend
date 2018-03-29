@@ -50,14 +50,6 @@ public class FestivalController {
 			}
 		}
 		festival.setMusicGenres(list);
-		/*Set<FestivalTicketPhase> festivalTicketPhases = new HashSet<FestivalTicketPhase>();
-		for(FestivalTicketPhase ticketPhase:festival.geTicketPhases()) {
-			MusicGenre genre = musicGenreRepository.findOne(itemId);
-			if(genre != null) {
-				list.add(genre);
-			}
-		}
-		festival.setMusicGenres(list);*/
 		Festival festivalReturn = festivalRepository.save(festival);
 		
 		//Connect to new Detail Page

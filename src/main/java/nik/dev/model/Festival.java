@@ -49,6 +49,7 @@ public class Festival{
 	    private Set<MusicGenre> musicGenres;
 		
 		@OneToMany(orphanRemoval = true,
+				fetch = FetchType.EAGER,
 				cascade = CascadeType.ALL,
 	            mappedBy = "festival")
 		@JsonManagedReference

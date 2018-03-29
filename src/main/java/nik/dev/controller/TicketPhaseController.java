@@ -22,7 +22,11 @@ public class TicketPhaseController {
 	
 	@RequestMapping(value="ticketPhase", method= RequestMethod.GET)
 	public Iterable<FestivalTicketPhase> list(){
-		return festivalTicketPhaseRepository.findAll();
+		Iterable<FestivalTicketPhase> list = festivalTicketPhaseRepository.findAll();
+		for(FestivalTicketPhase item:list) {
+			item.setFestival_id(item.getFestival().getFestival_id());
+		}
+		return list;
 	}
 	@RequestMapping(value="ticketPhase", method = RequestMethod.POST)
 	public FestivalTicketPhase create(@RequestBody FestivalTicketPhase festivalTicketPhase) {

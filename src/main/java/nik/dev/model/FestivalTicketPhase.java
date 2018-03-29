@@ -8,19 +8,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
+@Table(name = "festival_ticket_phase")
 public class FestivalTicketPhase {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
 		Long festival_ticket_phase_id;
-		//Long festival_id;
-		@ManyToOne(fetch = FetchType.EAGER)
+		@Transient
+		Long festival_id;
+		@ManyToOne
 	    @JoinColumn(name = "festival_id", nullable = false)
 		@JsonBackReference
-		private Festival festival;
+		Festival festival;
 		String title;
 		Double price;
 		String syncStatus;
@@ -29,12 +33,21 @@ public class FestivalTicketPhase {
 
 		public FestivalTicketPhase() { }
 
-		public FestivalTicketPhase(Long festival_ticket_phase_id, String title, Double price, String sold, String started) {
+		public FestivalTicketPhase(Long festival_ticket_phase_id, Festival festival,String title, Double price, String sold, String started) {
 			this.festival_ticket_phase_id = festival_ticket_phase_id;
 			this.title = title;
 			this.price = price;
 			this.sold = sold;
+			this.festival = festival;
 			this.started = started;
+		}
+
+		public Long getFestival_id() {
+			return festival_id;
+		}
+
+		public void setFestival_id(Long festival_id) {
+			this.festival_id = festival_id;
 		}
 
 		public Festival getFestival() {
