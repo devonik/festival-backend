@@ -1,8 +1,15 @@
 package nik.dev.controller;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -16,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import nik.dev.helper.CompareSetList;
 import nik.dev.model.Festival;
 import nik.dev.model.FestivalTicketPhase;
 import nik.dev.model.MusicGenre;
@@ -72,14 +79,14 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.PUT)
 	public Festival update(@PathVariable Long id, @RequestBody Festival festival) {
-		Set<MusicGenre> list = new HashSet<MusicGenre>();
-		for(Long itemId:festival.getMusicGenreIds()) {
-			MusicGenre genre = musicGenreRepository.findOne(itemId);
-			if(genre != null) {
-				list.add(genre);
-			}
+		Set<FestivalTicketPhase> list = new HashSet<FestivalTicketPhase>();
+		// Create a sorted set of some names
+		
+		//For new TicketPhase
+		if(!festival.getTicketPhases().equals(festivalRepository.findOne(festival.getFestival_id()).getTicketPhases())) {
+			System.out.println("new Ticket Phase detected!");
 		}
-		festival.setMusicGenres(list);
+		
 		return festivalRepository.save(festival);
 	}
 	

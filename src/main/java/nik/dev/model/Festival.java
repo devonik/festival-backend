@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,6 +54,7 @@ public class Festival{
 				cascade = CascadeType.ALL,
 	            mappedBy = "festival")
 		@JsonManagedReference
+		@OrderBy("price")
 	    private Set<FestivalTicketPhase> ticketPhases;
 		
 		@Transient
@@ -77,7 +79,7 @@ public class Festival{
 		}
 
 		
-
+		
 		public Set<FestivalTicketPhase> getTicketPhases() {
 			return ticketPhases;
 		}
@@ -154,8 +156,6 @@ public class Festival{
 		public void setMusicGenres(Set<MusicGenre> musicGenres) {
 			this.musicGenres = musicGenres;
 		}
-
-		
 
 
 }
