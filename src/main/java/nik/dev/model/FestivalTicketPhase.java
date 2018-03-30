@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -30,7 +32,6 @@ public class FestivalTicketPhase {
 		String syncStatus;
 		String sold;
 		String started;
-
 		public FestivalTicketPhase() { }
 
 		public FestivalTicketPhase(Long festival_ticket_phase_id, Festival festival,String title, Double price, String sold, String started) {

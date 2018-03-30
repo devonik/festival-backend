@@ -22,6 +22,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -156,6 +158,7 @@ public class Festival{
 		public void setMusicGenres(Set<MusicGenre> musicGenres) {
 			this.musicGenres = musicGenres;
 		}
+
 
 
 }

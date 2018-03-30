@@ -1,5 +1,6 @@
 package nik.dev.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import nik.dev.model.Festival;
 import nik.dev.model.FestivalTicketPhase;
 import nik.dev.model.MusicGenre;
 import nik.dev.repository.IFestivalRepository;
+import nik.dev.repository.IFestivalTicketPhaseRepository;
 import nik.dev.repository.IMusicGenreRepository;
 
 @RestController
@@ -38,7 +40,8 @@ public class FestivalController {
 	private IFestivalRepository festivalRepository;
 	@Autowired
 	private IMusicGenreRepository musicGenreRepository;
-	
+	@Autowired
+	private IFestivalTicketPhaseRepository ticketRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -79,13 +82,23 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.PUT)
 	public Festival update(@PathVariable Long id, @RequestBody Festival festival) {
-		Set<FestivalTicketPhase> list = new HashSet<FestivalTicketPhase>();
-		// Create a sorted set of some names
-		
-		//For new TicketPhase
-		if(!festival.getTicketPhases().equals(festivalRepository.findOne(festival.getFestival_id()).getTicketPhases())) {
-			System.out.println("new Ticket Phase detected!");
+		Set<MusicGenre> list = new HashSet<MusicGenre>();
+		for(Long itemId:festival.getMusicGenreIds()) {
+			MusicGenre genre = musicGenreRepository.findOne(itemId);
+			if(genre != null) {
+				list.add(genre);
+			}
 		}
+		festival.setMusicGenres(list);
+		// Create a sorted set of some names
+		/*Festival currentFestival = festivalRepository.findOne(festival.getFestival_id());
+		for(FestivalTicketPhase item: currentFestival.getTicketPhases()) {
+			for(FestivalTicketPhase incomingItem: festival.getTicketPhases()) {
+				if(!item.equals(incomingItem)) {
+					System.out.println("new Ticket Phase detected!");
+				}
+			}
+		}*/
 		
 		return festivalRepository.save(festival);
 	}
