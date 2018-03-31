@@ -26,7 +26,7 @@ public class PushController {
 	AndroidPushNotificationsService androidPushNotificationsService;
  
 	@RequestMapping(value = "send", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<String> send(String titleText, String bodyText) throws JSONException {
+	public ResponseEntity<String> send(String titleText, String bodyText, String pushMethod) throws JSONException {
  
 		JSONObject body = new JSONObject();
 		body.put("to", "/topics/" + TOPIC);
@@ -38,7 +38,11 @@ public class PushController {
 		notification.put("sound", "default");
 		
 		JSONObject data = new JSONObject();
-		data.put("devnik.trancefestivalticker.KEY_SYNC_REQUEST", "sync");
+		if(pushMethod == null || pushMethod == "") {
+			//Sync as default
+			pushMethod = "sync";
+		}
+		data.put("devnik.trancefestivalticker.KEY_SYNC_REQUEST", pushMethod);
  
 		body.put("notification", notification);
 		body.put("data", data);

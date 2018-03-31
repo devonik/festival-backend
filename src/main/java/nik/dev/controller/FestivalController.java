@@ -42,6 +42,8 @@ public class FestivalController {
 	private IMusicGenreRepository musicGenreRepository;
 	@Autowired
 	private IFestivalTicketPhaseRepository ticketRepository;
+	@Autowired
+	private PushController pushController;
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -90,15 +92,36 @@ public class FestivalController {
 			}
 		}
 		festival.setMusicGenres(list);
-		// Create a sorted set of some names
-		/*Festival currentFestival = festivalRepository.findOne(festival.getFestival_id());
-		for(FestivalTicketPhase item: currentFestival.getTicketPhases()) {
-			for(FestivalTicketPhase incomingItem: festival.getTicketPhases()) {
-				if(!item.equals(incomingItem)) {
-					System.out.println("new Ticket Phase detected!");
+		// Create a couple ArrayList objects and populate them
+		// with some delicious fruits.
+		Set<FestivalTicketPhase> incomingTicketPhases = festival.getTicketPhases();
+		
+		for(FestivalTicketPhase incomingTicketPhase:incomingTicketPhases) {
+			if(incomingTicketPhase.getFestival_ticket_phase_id() == null){
+				//Item new in database
+				System.out.println("new ticket id detected!");
+				if(incomingTicketPhase.getSold().equals("no")&&incomingTicketPhase.getStarted().equals("yes")) {
+					System.out.println("new ticket is started and not sold!");
+					pushController.send("Das Festival: "+festival.getName()+" hat ihre naechste Ticket Phase begonnen", 
+							"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
+							"newTicketPhase");
 				}
 			}
-		}*/
+			else if(incomingTicketPhase.getFestival_ticket_phase_id() != null) {
+				//Item already exist in database
+				FestivalTicketPhase existingTicketPhase = ticketRepository.findOne(incomingTicketPhase.getFestival_ticket_phase_id());
+				if((!existingTicketPhase.getSold().equals(incomingTicketPhase.getSold()) && incomingTicketPhase.getSold().equals("no"))
+					||
+					(!existingTicketPhase.getStarted().equals(incomingTicketPhase.getStarted()) && incomingTicketPhase.getStarted().equals("yes"))) {
+					//Existing ticketPhase gone to started
+					System.out.println("Existing ticket is now started and not sold!");
+					pushController.send("Das Festival: "+festival.getName()+" hat ihre naechste Ticket Phase begonnen", 
+							"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
+							"newTicketPhase");
+				}
+			}
+			
+		}
 		
 		return festivalRepository.save(festival);
 	}

@@ -159,6 +159,14 @@ public class Festival{
 			this.musicGenres = musicGenres;
 		}
 
+		@Override
+		public String toString() {
+			return "Festival [festival_id=" + festival_id + ", festivalDetailId=" + festivalDetailId + ", name=" + name
+					+ ", thumbnail_image_url=" + thumbnail_image_url + ", datum_start=" + datum_start + ", datum_end="
+					+ datum_end + ", syncStatus=" + syncStatus + ", musicGenres=" + musicGenres + ", ticketPhases="
+					+ ticketPhases + ", musicGenreIds=" + musicGenreIds + "]";
+		}
+
 
 
 }

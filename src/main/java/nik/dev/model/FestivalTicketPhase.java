@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "festival_ticket_phase")
@@ -51,6 +52,7 @@ public class FestivalTicketPhase {
 			this.festival_id = festival_id;
 		}
 
+		
 		public Festival getFestival() {
 			return festival;
 		}
