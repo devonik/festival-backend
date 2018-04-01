@@ -102,7 +102,7 @@ public class FestivalController {
 				System.out.println("new ticket id detected!");
 				if(incomingTicketPhase.getSold().equals("no")&&incomingTicketPhase.getStarted().equals("yes")) {
 					System.out.println("new ticket is started and not sold!");
-					pushController.send("Das Festival: "+festival.getName()+" hat ihre naechste Ticket Phase begonnen", 
+					pushController.send(festival.getName()+" naechste Ticketphase", 
 							"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
 							"newTicketPhase");
 				}
