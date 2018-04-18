@@ -66,6 +66,11 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-data-rest</artifactId>
 	 </dependency>
+	 <dependency>
+	    <groupId>de.danielbechler</groupId>
+	    <artifactId>java-object-diff</artifactId>
+	    <version>0.95</version>
+	 </dependency>
   </dependencies>
   
  <build>

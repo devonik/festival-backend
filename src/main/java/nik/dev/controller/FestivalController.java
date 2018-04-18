@@ -24,13 +24,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.danielbechler.diff.ObjectDifferBuilder;
+import de.danielbechler.diff.node.DiffNode;
+import de.danielbechler.diff.node.Visit;
 import nik.dev.helper.CompareSetList;
 import nik.dev.model.Festival;
 import nik.dev.model.FestivalTicketPhase;
 import nik.dev.model.MusicGenre;
+import nik.dev.model.WhatsNew;
 import nik.dev.repository.IFestivalRepository;
 import nik.dev.repository.IFestivalTicketPhaseRepository;
 import nik.dev.repository.IMusicGenreRepository;
+import nik.dev.repository.IWhatsNewRepository;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -44,6 +49,8 @@ public class FestivalController {
 	private IFestivalTicketPhaseRepository ticketRepository;
 	@Autowired
 	private PushController pushController;
+	@Autowired
+	private IWhatsNewRepository whatsNewRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -72,7 +79,11 @@ public class FestivalController {
 		storedProcedure.execute();
 		//New generated festival_detail_id
 		festivalReturn.setFestival_detail_id((Long) storedProcedure.getOutputParameterValue(2));
-		//pushController.send("Es kam eines neues Festival hinzu!", festival.getName()+": "+new SimpleDateFormat("dd.MM.").format(festival.getDatum_start()));
+		
+		//Add Whats new Entry
+		WhatsNew whatsNew = new WhatsNew();
+		whatsNew.setContent("Neues Festival: "+festivalReturn.getName());
+		whatsNewRepository.save(whatsNew);
 		
 		return festivalReturn;
 	}
@@ -84,6 +95,7 @@ public class FestivalController {
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.PUT)
 	public Festival update(@PathVariable Long id, @RequestBody Festival festival) {
+		Festival existingFestival = festivalRepository.findOne(festival.getFestival_id());
 		Set<MusicGenre> list = new HashSet<MusicGenre>();
 		for(Long itemId:festival.getMusicGenreIds()) {
 			MusicGenre genre = musicGenreRepository.findOne(itemId);
@@ -105,6 +117,10 @@ public class FestivalController {
 					pushController.send(festival.getName()+" naechste Ticketphase", 
 							"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
 							"newTicketPhase");
+					//Add Whats new Entry
+					WhatsNew whatsNew = new WhatsNew();
+					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+"€) eines Tickets für: "+festival.getName());
+					whatsNewRepository.save(whatsNew);
 				}
 			}
 			else if(incomingTicketPhase.getFestival_ticket_phase_id() != null) {
@@ -118,11 +134,26 @@ public class FestivalController {
 					pushController.send("Das Festival: "+festival.getName()+" hat ihre naechste Ticket Phase begonnen", 
 							"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
 							"newTicketPhase");
+					//Add Whats new Entry
+					WhatsNew whatsNew = new WhatsNew();
+					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+"€) eines Tickets für: "+festival.getName());
+					whatsNewRepository.save(whatsNew);
 				}
 			}
 			
 		}
-		
+		DiffNode diff = ObjectDifferBuilder.buildDefault().compare(festival, existingFestival);
+		diff.visit(new DiffNode.Visitor()
+		{
+		    public void node(DiffNode node, Visit visit)
+		    {
+		        final Object baseValue = node.canonicalGet(existingFestival);
+		        final Object workingValue = node.canonicalGet(festival);
+		        final String message = node.getPath() + " changed from " + 
+		                               baseValue + " to " + workingValue;
+		        System.out.println(message);
+		    }
+		});
 		return festivalRepository.save(festival);
 	}
 	
@@ -130,6 +161,11 @@ public class FestivalController {
 	public Festival delete(@PathVariable Long id) {
 		Festival existingFestival = festivalRepository.findOne(id);
 		festivalRepository.delete(existingFestival);
+		//Add Whats new Entry
+		WhatsNew whatsNew = new WhatsNew();
+		whatsNew.setContent("Festival wurde gelöscht: "+existingFestival.getName());
+		whatsNewRepository.save(whatsNew);
+		
 		return existingFestival;
 	}
 	

@@ -167,6 +167,116 @@ public class Festival{
 					+ ticketPhases + ", musicGenreIds=" + musicGenreIds + "]";
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((datum_end == null) ? 0 : datum_end.hashCode());
+			result = prime * result + ((datum_start == null) ? 0 : datum_start.hashCode());
+			result = prime * result + ((festivalDetailId == null) ? 0 : festivalDetailId.hashCode());
+			result = prime * result + ((festival_id == null) ? 0 : festival_id.hashCode());
+			result = prime * result + ((musicGenreIds == null) ? 0 : musicGenreIds.hashCode());
+			result = prime * result + ((musicGenres == null) ? 0 : musicGenres.hashCode());
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			result = prime * result + ((syncStatus == null) ? 0 : syncStatus.hashCode());
+			result = prime * result + ((thumbnail_image_url == null) ? 0 : thumbnail_image_url.hashCode());
+			result = prime * result + ((ticketPhases == null) ? 0 : ticketPhases.hashCode());
+			
+			System.out.println("HASHCODE: "+result);
+			return result;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
+			Festival other = (Festival) obj;
+			if (datum_end == null) {
+				if (other.datum_end != null) {
+					return false;
+				}
+			} else if (!datum_end.equals(other.datum_end)) {
+				return false;
+			}
+			if (datum_start == null) {
+				if (other.datum_start != null) {
+					return false;
+				}
+			} else if (!datum_start.equals(other.datum_start)) {
+				return false;
+			}
+			if (festivalDetailId == null) {
+				if (other.festivalDetailId != null) {
+					return false;
+				}
+			} else if (!festivalDetailId.equals(other.festivalDetailId)) {
+				return false;
+			}
+			if (festival_id == null) {
+				if (other.festival_id != null) {
+					return false;
+				}
+			} else if (!festival_id.equals(other.festival_id)) {
+				return false;
+			}
+			if (musicGenreIds == null) {
+				if (other.musicGenreIds != null) {
+					return false;
+				}
+			} else if (!musicGenreIds.equals(other.musicGenreIds)) {
+				return false;
+			}
+			if (musicGenres == null) {
+				if (other.musicGenres != null) {
+					return false;
+				}
+			} else if (!musicGenres.equals(other.musicGenres)) {
+				return false;
+			}
+			if (name == null) {
+				if (other.name != null) {
+					return false;
+				}
+			} else if (!name.equals(other.name)) {
+				return false;
+			}
+			if (syncStatus == null) {
+				if (other.syncStatus != null) {
+					return false;
+				}
+			} else if (!syncStatus.equals(other.syncStatus)) {
+				return false;
+			}
+			if (thumbnail_image_url == null) {
+				if (other.thumbnail_image_url != null) {
+					return false;
+				}
+			} else if (!thumbnail_image_url.equals(other.thumbnail_image_url)) {
+				return false;
+			}
+			if (ticketPhases == null) {
+				if (other.ticketPhases != null) {
+					return false;
+				}
+			} else if (!ticketPhases.equals(other.ticketPhases)) {
+				return false;
+			}
+			return true;
+		}
+
 
 
 }
