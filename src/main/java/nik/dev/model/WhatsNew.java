@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -28,6 +29,7 @@ public class WhatsNew implements Serializable{
 	private String content;
 	
 	@CreationTimestamp
+	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	private Date createdDate;
 
 	/**

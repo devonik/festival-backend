@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import nik.dev.model.WhatsNew;
@@ -24,7 +26,8 @@ public class WhatsNewController {
 		return whatsNewRepository.findAll();
 	}
 	@RequestMapping(value="whatsNewBetweenDates", method= RequestMethod.GET)
-	public List<WhatsNew> get(Date start, Date end){
+	public List<WhatsNew> get(@RequestParam("start") @DateTimeFormat(pattern="dd.MM.yyyy HH:mm:ss") Date start, 
+			@RequestParam("end") @DateTimeFormat(pattern="dd.MM.yyyy HH:mm:ss") Date end){
 		return whatsNewRepository.findByCreatedDateBetween(start, end);
 	}
 	@RequestMapping(value="whatsNew", method = RequestMethod.POST)
