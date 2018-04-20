@@ -29,7 +29,7 @@ public class WhatsNew implements Serializable{
 	private String content;
 	
 	@CreationTimestamp
-	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 
 	/**
