@@ -1,8 +1,11 @@
 package nik.dev.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +44,7 @@ import nik.dev.repository.IWhatsNewRepository;
 @RequestMapping("api/v1/")
 @CrossOrigin(origins = "*")
 public class FestivalController {
+	DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 	@Autowired
 	private IFestivalRepository festivalRepository;
 	@Autowired
@@ -149,9 +153,25 @@ public class FestivalController {
 		    {
 		        final Object baseValue = node.canonicalGet(existingFestival);
 		        final Object workingValue = node.canonicalGet(festival);
-		        final String message = node.getPath() + " changed from " + 
-		                               baseValue + " to " + workingValue;
-		        System.out.println(message);
+		        
+		        if(node.getPropertyName()!= null && (node.getPropertyName().equals("datum_end") || node.getPropertyName().equals("datum_start"))) {
+		        	
+		        	String startDateBase = dateFormat.format((Date)baseValue);
+		        	String startDateWorking = dateFormat.format((Date)workingValue);
+		        	
+		        	String endDateBase = dateFormat.format((Date)baseValue);
+		        	String endDateWorking = dateFormat.format((Date)workingValue);
+		        	
+		        	if(!startDateBase.equals(startDateWorking) || !endDateBase.equals(endDateWorking)) {
+		        		//Add Whats new Entry
+						WhatsNew whatsNew = new WhatsNew();
+						whatsNew.setContent("Das Datum des Festivals: "+festival.getName()+
+								" hat sich geändert zu "+dateFormat.format(festival.getDatum_start())+
+								" - "+dateFormat.format(festival.getDatum_end()));
+						whatsNewRepository.save(whatsNew);
+		        	};
+		        	
+		        }
 		    }
 		});
 		return festivalRepository.save(festival);
