@@ -21,10 +21,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="whats_new")
 @EntityListeners(AuditingEntityListener.class)
-public class WhatsNew implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class WhatsNew{
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String content;
 	

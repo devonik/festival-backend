@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class FestivalDetail {
 		@Id
-		@GeneratedValue(strategy=GenerationType.AUTO)
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		Long festival_detail_id;
 		Long festival_detail_images_id;
 		Long festival_id;
