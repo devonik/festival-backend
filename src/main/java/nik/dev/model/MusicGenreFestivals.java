@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Table(name="music_genre_festivals")
 public class MusicGenreFestivals {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long festival_id;
 	private Long music_genre_id;

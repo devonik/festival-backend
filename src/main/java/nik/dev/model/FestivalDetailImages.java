@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name="festival_detail_images")
 public class FestivalDetailImages {
 		@Id
-		@GeneratedValue(strategy=GenerationType.AUTO)
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		Long festival_detail_images_id;
 		@Column(name ="festival_detail_id", nullable = false)
 		Long festivalDetailId;

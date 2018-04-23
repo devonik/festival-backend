@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class FestivalArchive {
 		@Id
-		@GeneratedValue(strategy=GenerationType.AUTO)
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		Long festival_id;
 		Long festival_detail_id;
 		String name;

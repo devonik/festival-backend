@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "festival_ticket_phase")
 public class FestivalTicketPhase {
 		@Id
-		@GeneratedValue(strategy=GenerationType.AUTO)
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		Long festival_ticket_phase_id;
 		@Transient
 		Long festival_id;

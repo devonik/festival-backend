@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name="music_genre")
 public class MusicGenre{
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="music_genre_id")
 	private Long id;
 	private String name;
