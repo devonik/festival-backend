@@ -4,8 +4,7 @@ Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: nik
 Implementation-Vendor-Id: nik.dev
 Build-Jdk: 1.8.0_161
-Implementation-URL: http://projects.spring.io/spring-boot/festivaltick
- er/
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/festivalticker
 Created-By: Maven Integration for Eclipse
-Implementation-Vendor: Pivotal Software, Inc.
 

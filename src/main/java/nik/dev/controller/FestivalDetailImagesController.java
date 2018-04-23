@@ -1,6 +1,7 @@
 package nik.dev.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,9 +37,9 @@ public class FestivalDetailImagesController {
 	}
 	
 	@RequestMapping(value="festivalDetailImages/{id}", method = RequestMethod.DELETE)
-	public FestivalDetailImages delete(@PathVariable Long id) {
-		FestivalDetailImages existingFestivalDetail = festivalDetailImagesRepository.findOne(id);
-		festivalDetailImagesRepository.delete(existingFestivalDetail);
+	public Optional<FestivalDetailImages> delete(@PathVariable Long id) {
+		Optional<FestivalDetailImages> existingFestivalDetail = festivalDetailImagesRepository.findById(id);
+		festivalDetailImagesRepository.deleteById(existingFestivalDetail.get().getFestival_detail_images_id());
 		return existingFestivalDetail;
 	}
 	@RequestMapping(value="festivalDetailImagesByUnSync", method= RequestMethod.GET)

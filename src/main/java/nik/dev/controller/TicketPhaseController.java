@@ -1,5 +1,7 @@
 package nik.dev.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,9 +41,9 @@ public class TicketPhaseController {
 	}
 	
 	@RequestMapping(value="ticketPhase/{id}", method = RequestMethod.DELETE)
-	public FestivalTicketPhase delete(@PathVariable Long id) {
-		FestivalTicketPhase existingTicketPhase = festivalTicketPhaseRepository.findOne(id);
-		festivalTicketPhaseRepository.delete(existingTicketPhase);
+	public Optional<FestivalTicketPhase> delete(@PathVariable Long id) {
+		Optional<FestivalTicketPhase> existingTicketPhase = festivalTicketPhaseRepository.findById(id);
+		festivalTicketPhaseRepository.deleteById(existingTicketPhase.get().getFestival_ticket_phase_id());
 		return existingTicketPhase;
 	}
 }

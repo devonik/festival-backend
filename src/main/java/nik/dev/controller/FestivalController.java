@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -19,6 +20,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,9 +70,9 @@ public class FestivalController {
 	public Festival create(@RequestBody Festival festival) {
 		Set<MusicGenre> list = new HashSet<MusicGenre>();
 		for(Long itemId:festival.getMusicGenreIds()) {
-			MusicGenre genre = musicGenreRepository.findOne(itemId);
+			Optional<MusicGenre> genre = musicGenreRepository.findById(itemId);
 			if(genre != null) {
-				list.add(genre);
+				list.add(genre.get());
 			}
 		}
 		festival.setMusicGenres(list);
@@ -93,18 +96,18 @@ public class FestivalController {
 	}
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.GET)
-	public Festival get(@PathVariable Long id) {
-		return festivalRepository.findOne(id);
+	public Optional<Festival> get(@PathVariable Long id) {
+		return festivalRepository.findById(id);
 	}
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.PUT)
 	public Festival update(@PathVariable Long id, @RequestBody Festival festival) {
-		Festival existingFestival = festivalRepository.findOne(festival.getFestival_id());
+		Optional<Festival> existingFestival = festivalRepository.findById(festival.getFestival_id());
 		Set<MusicGenre> list = new HashSet<MusicGenre>();
 		for(Long itemId:festival.getMusicGenreIds()) {
-			MusicGenre genre = musicGenreRepository.findOne(itemId);
+			Optional<MusicGenre> genre = musicGenreRepository.findById(itemId);
 			if(genre != null) {
-				list.add(genre);
+				list.add(genre.get());
 			}
 		}
 		festival.setMusicGenres(list);
@@ -118,9 +121,14 @@ public class FestivalController {
 				System.out.println("new ticket id detected!");
 				if(incomingTicketPhase.getSold().equals("no")&&incomingTicketPhase.getStarted().equals("yes")) {
 					System.out.println("new ticket is started and not sold!");
-					pushController.send(festival.getName()+" naechste Ticketphase", 
-							"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
-							"newTicketPhase");
+					try {
+						pushController.send(festival.getName()+" naechste Ticketphase", 
+								"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
+								"newTicketPhase");
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					//Add Whats new Entry
 					WhatsNew whatsNew = new WhatsNew();
 					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+"€) eines Tickets für: "+festival.getName());
@@ -129,15 +137,20 @@ public class FestivalController {
 			}
 			else if(incomingTicketPhase.getFestival_ticket_phase_id() != null) {
 				//Item already exist in database
-				FestivalTicketPhase existingTicketPhase = ticketRepository.findOne(incomingTicketPhase.getFestival_ticket_phase_id());
-				if((!existingTicketPhase.getSold().equals(incomingTicketPhase.getSold()) && incomingTicketPhase.getSold().equals("no"))
+				Optional<FestivalTicketPhase> existingTicketPhase = ticketRepository.findById(incomingTicketPhase.getFestival_ticket_phase_id());
+				if((!existingTicketPhase.get().getSold().equals(incomingTicketPhase.getSold()) && incomingTicketPhase.getSold().equals("no"))
 					||
-					(!existingTicketPhase.getStarted().equals(incomingTicketPhase.getStarted()) && incomingTicketPhase.getStarted().equals("yes"))) {
+					(!existingTicketPhase.get().getStarted().equals(incomingTicketPhase.getStarted()) && incomingTicketPhase.getStarted().equals("yes"))) {
 					//Existing ticketPhase gone to started
 					System.out.println("Existing ticket is now started and not sold!");
-					pushController.send("Das Festival: "+festival.getName()+" hat ihre naechste Ticket Phase begonnen", 
-							"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
-							"newTicketPhase");
+					try {
+						pushController.send("Das Festival: "+festival.getName()+" hat ihre naechste Ticket Phase begonnen", 
+								"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" €",
+								"newTicketPhase");
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					//Add Whats new Entry
 					WhatsNew whatsNew = new WhatsNew();
 					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+"€) eines Tickets für: "+festival.getName());
@@ -178,12 +191,12 @@ public class FestivalController {
 	}
 	
 	@RequestMapping(value="festivals/{id}", method = RequestMethod.DELETE)
-	public Festival delete(@PathVariable Long id) {
-		Festival existingFestival = festivalRepository.findOne(id);
-		festivalRepository.delete(existingFestival);
+	public Optional<Festival> delete(@PathVariable Long id) {
+		Optional<Festival> existingFestival = festivalRepository.findById(id);
+		festivalRepository.deleteById(existingFestival.get().getFestival_id());
 		//Add Whats new Entry
 		WhatsNew whatsNew = new WhatsNew();
-		whatsNew.setContent("Festival wurde gelöscht: "+existingFestival.getName());
+		whatsNew.setContent("Festival wurde gelöscht: "+existingFestival.get().getName());
 		whatsNewRepository.save(whatsNew);
 		
 		return existingFestival;

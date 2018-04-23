@@ -3,6 +3,7 @@ package nik.dev.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,60 +43,40 @@ public class FestivalDetailController {
 		return festivalDetailRepository.findAll();
 	}
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.GET)
-	public FestivalDetail get(@PathVariable Long id) {
-		return festivalDetailRepository.findOne(id);
+	public Optional<FestivalDetail> get(@PathVariable Long id) {
+		return festivalDetailRepository.findById(id);
 	}
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.PUT)
 	public FestivalDetail update(@RequestBody FestivalDetail festivalDetail) {
-		FestivalDetail existingFestivalDetail = festivalDetailRepository.findOne(festivalDetail.getFestival_detail_id());
-		Festival existingFestival = festivalRepository.findOne(festivalDetail.getFestival_id());
+		Optional<FestivalDetail> existingFestivalDetail = festivalDetailRepository.findById(festivalDetail.getFestival_detail_id());
+		Optional<Festival> existingFestival = festivalRepository.findById(festivalDetail.getFestival_id());
 		List<String> changedFields = new ArrayList<String>();
-		/*DiffNode diff = ObjectDifferBuilder.buildDefault().compare(festivalDetail, existingFestivalDetail);
-		diff.visit(new DiffNode.Visitor()
-		{
-		    public void node(DiffNode node, Visit visit)
-		    {
-		        //final Object baseValue = node.canonicalGet(existingFestivalDetail);
-		        //final Object workingValue = node.canonicalGet(festivalDetail);
-		        if(node.getPropertyName().equals("description")) {
-		        	changedFields.add("Beschreibung");
-		        }
-		        if(node.getPropertyName().equals("homepage_url")) {
-		        	changedFields.add("Homepage");
-		        }
-		        if(node.getPropertyName().equals("ticket_url")) {
-		        	changedFields.add("Ticket Seite");
-		        }
-		        if(node.getPropertyName().equals("geoLatitude") || node.getPropertyName().equals("geoLongitude")) {
-		        	changedFields.add("Ort");
-		        }
-		    }
-		});*/
+
 		if(festivalDetail.getDescription() != null &&
-				(!festivalDetail.getDescription().equals(existingFestivalDetail.getDescription()))) {
+				(!festivalDetail.getDescription().equals(existingFestivalDetail.get().getDescription()))) {
 			
         	changedFields.add("Beschreibung");
         	
         }
 		
         if(festivalDetail.getHomepage_url() != null &&
-        		(!festivalDetail.getHomepage_url().equals(existingFestivalDetail.getHomepage_url()))) {
+        		(!festivalDetail.getHomepage_url().equals(existingFestivalDetail.get().getHomepage_url()))) {
         	
         	changedFields.add("Homepage");
         	
         }
         if(festivalDetail.getTicket_url() != null &&
-        		(!festivalDetail.getTicket_url().equals(existingFestivalDetail.getTicket_url()))) {
+        		(!festivalDetail.getTicket_url().equals(existingFestivalDetail.get().getTicket_url()))) {
         	
         	changedFields.add("Ticket Seite");
         	
         }
         if((festivalDetail.getGeoLatitude() != null &&
-        		(!festivalDetail.getGeoLatitude().equals(existingFestivalDetail.getGeoLatitude()))
+        		(!festivalDetail.getGeoLatitude().equals(existingFestivalDetail.get().getGeoLatitude()))
         	) || 
         		(festivalDetail.getGeoLongitude() != null && 
-        		(!festivalDetail.getGeoLongitude().equals(existingFestivalDetail.getGeoLongitude()))
+        		(!festivalDetail.getGeoLongitude().equals(existingFestivalDetail.get().getGeoLongitude()))
         		)
           ) {
         	
@@ -110,7 +91,7 @@ public class FestivalDetailController {
 			}
 			//Add Whats new Entry
 			WhatsNew whatsNew = new WhatsNew();
-			whatsNew.setContent("Änderungen des Festivals: "+existingFestival.getName()+
+			whatsNew.setContent("Änderungen des Festivals: "+existingFestival.get().getName()+
 								stringBuilder);
 			whatsNewRepository.save(whatsNew);
 		}
@@ -118,9 +99,9 @@ public class FestivalDetailController {
 	}
 	
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.DELETE)
-	public FestivalDetail delete(@PathVariable Long id) {
-		FestivalDetail existingFestivalDetail = festivalDetailRepository.findOne(id);
-		festivalDetailRepository.delete(existingFestivalDetail);
+	public Optional<FestivalDetail> delete(@PathVariable Long id) {
+		Optional<FestivalDetail> existingFestivalDetail = festivalDetailRepository.findById(id);
+		festivalDetailRepository.deleteById(existingFestivalDetail.get().getFestival_detail_id());
 		return existingFestivalDetail;
 	}
 	@RequestMapping(value="festivalDetailsByUnSync", method= RequestMethod.GET)

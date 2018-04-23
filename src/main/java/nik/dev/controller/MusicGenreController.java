@@ -1,5 +1,7 @@
 package nik.dev.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +43,9 @@ public class MusicGenreController {
 	}
 	
 	@RequestMapping(value="musicGenre/{id}", method = RequestMethod.DELETE)
-	public MusicGenre delete(@PathVariable Long id) {
-		MusicGenre existingMusicGenre = musicGenreRepository.findOne(id);
-		musicGenreRepository.delete(existingMusicGenre);
+	public Optional<MusicGenre> delete(@PathVariable Long id) {
+		Optional<MusicGenre> existingMusicGenre = musicGenreRepository.findById(id);
+		musicGenreRepository.deleteById(existingMusicGenre.get().getId());
 		return existingMusicGenre;
 	}
 }
