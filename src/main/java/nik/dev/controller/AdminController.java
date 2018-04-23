@@ -1,6 +1,8 @@
 package nik.dev.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +15,6 @@ import nik.dev.model.Authentication.LoginDto;
 import nik.dev.model.Authentication.UserJWTGenerator;
 import nik.dev.repository.IAdminRepository;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
