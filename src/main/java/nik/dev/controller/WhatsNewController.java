@@ -26,8 +26,7 @@ public class WhatsNewController {
 		return whatsNewRepository.findAll();
 	}
 	@RequestMapping(value="whatsNewBetweenDates", method= RequestMethod.GET)
-	public List<WhatsNew> get(@RequestParam("start") @DateTimeFormat(pattern="dd.MM.yyyy HH:mm:ss") Date start, 
-			@RequestParam("end") @DateTimeFormat(pattern="dd.MM.yyyy HH:mm:ss") Date end){
+	public List<WhatsNew> get(Date start, Date end){
 		return whatsNewRepository.findByCreatedDateBetween(start, end);
 	}
 	@RequestMapping(value="whatsNew", method = RequestMethod.POST)
