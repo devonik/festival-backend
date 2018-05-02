@@ -13,6 +13,7 @@
     <include file="changelogs/09-modify-ticket-phase.xml" relativeToChangelogFile="true"/>
     
     <include file="changelogs/10-create-whats-new.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/11-create-festival-vr-view.xml" relativeToChangelogFile="true"/>
     
     <changeSet author="nik (generated)" id="1519824713342-7">
         <addUniqueConstraint columnNames="festival_id" constraintName="festival_id_UNIQUE" tableName="festival_detail"/>

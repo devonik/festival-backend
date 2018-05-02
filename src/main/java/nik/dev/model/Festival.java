@@ -58,7 +58,7 @@ public class Festival{
 		@JsonManagedReference
 		@OrderBy("price")
 	    private Set<FestivalTicketPhase> ticketPhases;
-		
+				
 		@Transient
 		private List<Long> musicGenreIds;
 		
