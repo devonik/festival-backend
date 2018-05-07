@@ -47,6 +47,8 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-actuator</artifactId>    
     </dependency>    
+    
+    <!-- Secruity JWT Token -->
      <dependency>
          <groupId>io.jsonwebtoken</groupId>
          <artifactId>jjwt</artifactId>
@@ -57,18 +59,11 @@
    		<artifactId>spring-boot-starter-security</artifactId>
 	 </dependency>
 	 <dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-data-rest</artifactId>
-	 </dependency>
-	 <dependency>
 	    <groupId>de.danielbechler</groupId>
 	    <artifactId>java-object-diff</artifactId>
 	    <version>0.95</version>
 	 </dependency>
-	 <dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-json</artifactId>
-	 </dependency>
+	 <!-- For JSON -->
 	 <dependency>
 	 	<groupId>org.springframework.boot</groupId>
 	 	<artifactId>spring-boot-configuration-processor</artifactId>
