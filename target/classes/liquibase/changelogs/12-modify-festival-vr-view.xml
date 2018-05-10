@@ -17,8 +17,6 @@
 </changeSet>
 <changeSet author="grn" id="changeForeignKeyColumn">
 
-    <dropForeignKeyConstraint baseTableName="festival_vr_view" 
-    						  constraintName="fk_festival_vr_view"/>
 
 	<dropColumn columnName="festival_id"
             tableName="festival_vr_view"/>
