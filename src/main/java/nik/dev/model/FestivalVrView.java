@@ -18,20 +18,22 @@ public class FestivalVrView {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		Long id;
-		Long festivalId;
+		Long festivalDetailId;
 		String url;
 		String description;
+		String type;
+		
 		/**
-		 * @return the festivalId
+		 * @return the festivalDetailId
 		 */
-		public Long getFestivalId() {
-			return festivalId;
+		public Long getFestivalDetailId() {
+			return festivalDetailId;
 		}
 		/**
-		 * @param festival_id the festivalId to set
+		 * @param festivalDetailId the festivalDetailId to set
 		 */
-		public void setFestivalId(Long festivalId) {
-			this.festivalId = festivalId;
+		public void setFestivalDetailId(Long festivalDetailId) {
+			this.festivalDetailId = festivalDetailId;
 		}
 		/**
 		 * @return the url
@@ -56,6 +58,19 @@ public class FestivalVrView {
 		 */
 		public void setDescription(String description) {
 			this.description = description;
+		}
+		
+		/**
+		 * @return the type
+		 */
+		public String getType() {
+			return type;
+		}
+		/**
+		 * @param type the type to set
+		 */
+		public void setType(String type) {
+			this.type = type;
 		}
 		/**
 		 * @return the id

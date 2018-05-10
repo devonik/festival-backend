@@ -10,5 +10,5 @@ import nik.dev.model.FestivalVrView;
 import nik.dev.model.MusicGenre;
 
 public interface IFestivalVrViewRepository extends CrudRepository<FestivalVrView, Long> {
-	List<FestivalVrView> findByFestivalId(Long id);
+	List<FestivalVrView> findByFestivalDetailId(Long id);
 }

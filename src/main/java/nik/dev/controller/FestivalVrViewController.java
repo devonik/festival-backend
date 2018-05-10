@@ -28,9 +28,9 @@ public class FestivalVrViewController {
 	public Iterable<FestivalVrView> list(){
 		return festivalVrViewRepository.findAll();
 	}
-	@RequestMapping(value="vrViewByFestivalId/{id}", method= RequestMethod.GET)
-	public Iterable<FestivalVrView> findByFestivalId(@PathVariable Long id){
-		return festivalVrViewRepository.findByFestivalId(id);
+	@RequestMapping(value="vrViewByFestivalDetailId/{id}", method= RequestMethod.GET)
+	public Iterable<FestivalVrView> findByFestivalDetailId(@PathVariable Long id){
+		return festivalVrViewRepository.findByFestivalDetailId(id);
 	}
 	@RequestMapping(value="vrView", method = RequestMethod.POST)
 	public FestivalVrView create(@RequestBody FestivalVrView festivalTicketPhase) {

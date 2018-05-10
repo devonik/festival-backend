@@ -1,0 +1,36 @@
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+                      
+<changeSet author="grn" id="addNewColumn">
+    <addColumn tableName="festival_vr_view">
+        <column name="type" type="varchar(55)">
+        	<constraints nullable="false"/>
+        </column>
+    </addColumn>
+</changeSet>
+<changeSet author="grn" id="changeForeignKeyColumn">
+
+    <dropForeignKeyConstraint baseTableName="festival_vr_view" 
+    						  constraintName="fk_festival_vr_view"/>
+
+	<dropColumn columnName="festival_id"
+            tableName="festival_vr_view"/>
+            
+    <addColumn tableName="festival_vr_view">
+        <column name="festival_detail_id" type="BIGINT">
+            <constraints nullable="false"/>
+        </column>
+    </addColumn>
+    <createIndex indexName="fk_festival_detail_vr_view_idx" tableName="festival_vr_view">
+        <column name="festival_detail_id"/>
+    </createIndex>
+    <addForeignKeyConstraint baseColumnNames="festival_detail_id" baseTableName="festival_vr_view" constraintName="fk_festival_detail_vr_view" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="festival_detail_id" referencedTableName="festival_detail"/>
+</changeSet>
+</databaseChangeLog> 
