@@ -123,7 +123,7 @@ public class FestivalController {
 					System.out.println("new ticket is started and not sold!");
 					try {
 						pushController.send(festival.getName()+" naechste Ticketphase", 
-								"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" U+20AC",
+								"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" Euro",
 								"newTicketPhase");
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -131,7 +131,7 @@ public class FestivalController {
 					}
 					//Add Whats new Entry
 					WhatsNew whatsNew = new WhatsNew();
-					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+"U+20AC) eines Tickets für: "+festival.getName());
+					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+" Euro) eines Tickets für: "+festival.getName());
 					whatsNewRepository.save(whatsNew);
 				}
 			}
@@ -145,7 +145,7 @@ public class FestivalController {
 					System.out.println("Existing ticket is now started and not sold!");
 					try {
 						pushController.send("Das Festival: "+festival.getName()+" hat ihre naechste Ticket Phase begonnen", 
-								"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" U+20AC",
+								"Der neue Preis eines Tickets betraegt: "+incomingTicketPhase.getPrice()+" Euro",
 								"newTicketPhase");
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -153,7 +153,7 @@ public class FestivalController {
 					}
 					//Add Whats new Entry
 					WhatsNew whatsNew = new WhatsNew();
-					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+"U+20AC) eines Tickets für: "+festival.getName());
+					whatsNew.setContent("Neuer Preis ("+incomingTicketPhase.getPrice()+" Euro) eines Tickets für: "+festival.getName());
 					whatsNewRepository.save(whatsNew);
 				}
 			}
