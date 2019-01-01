@@ -10,4 +10,5 @@ import nik.dev.model.MusicGenre;
 
 public interface IFestivalTicketPhaseRepository extends CrudRepository<FestivalTicketPhase, Long> {
 	List<FestivalTicketPhase> findByFestival(Festival festival);
+	FestivalTicketPhase findByFestivalAndSoldAndStarted(Festival festival, String sold, String started);
 }
