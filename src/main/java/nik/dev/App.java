@@ -28,8 +28,15 @@ public class App
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    /*
+     *  //0 0 23 ? * *
+    //Starting Job on at 23 on every day
+    @Scheduled(cron="0 0 23 ? * *")
     
-    //0 0 23 ? * *
+    Every 5 Seconds
+    @Scheduled(fixedRate = 5000)
+    */
+    
     //Starting Job on at 23 on every day
     @Scheduled(cron="0 0 23 ? * *")
     public void reportCurrentTime() {
