@@ -28,7 +28,10 @@ public class App
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Scheduled(fixedRate = 5000)
+    
+    //0 0 23 ? * *
+    //Starting Job on at 23 on every day
+    @Scheduled(cron="0 0 23 ? * *")
     public void reportCurrentTime() {
         System.out.println("The time is now:" + dateFormat.format(new Date()));
         ticketPhaseAnalyzer.start();
