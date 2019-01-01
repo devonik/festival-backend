@@ -37,63 +37,54 @@ public class TicketPhaseAnalyzer {
 	
 	public void start() {
 		Optional<Festival> circus = festivalRepository.findById(Constants.PSYCHEDELIC_CIRCUS);
-		if(circus.isPresent()) {
-			FestivalTicketPhase oldCircusTicketPhase = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(circus.get(), "no", "yes");
-			
-			if(getPsychedelicCircusPrice() != null && !getPsychedelicCircusPrice().equals(oldCircusTicketPhase.getPrice())) {
-				System.out.println("OLD CIRCUS PRICE: "+oldCircusTicketPhase.getPrice());
-				System.out.println("NEW CIRCUS PRICE: "+getPsychedelicCircusPrice());
-				
-				//There is a new Price on the Ticket Site
-				
-				//First we will insert the new Ticket Phase
-				FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
-				newTicketPhase.setFestival(circus.get());
-				newTicketPhase.setTitle("VVK");
-				newTicketPhase.setPrice(getPsychedelicCircusPrice());
-				newTicketPhase.setSold("no");
-				newTicketPhase.setStarted("yes");
-				festivalTicketPhaseRepository.save(newTicketPhase);
-				
-				//Now we will set the old TicketPhase to sold
-				oldCircusTicketPhase.setSold("yes");
-				festivalTicketPhaseRepository.save(oldCircusTicketPhase);
-				
-				//Notify Phones about new Ticket Phase
-				notifyNewTicketPhase(circus.get(), newTicketPhase);
-			}
-		}
+		checkForNewTicketPhases(circus, getPsychedelicCircusPrice());
 		
 		Optional<Festival> psyExp = festivalRepository.findById(Constants.PSYCHEDELIC_EXPERIENCE);
-		if(psyExp.isPresent()) {
-			FestivalTicketPhase oldPsyExpTicketPhase = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(psyExp.get(), "no", "yes");
-			if(getPsychedelicExperiencePrice() != null && !getPsychedelicExperiencePrice().equals(oldPsyExpTicketPhase.getPrice())) {
-				System.out.println("OLD PSY EXP PRICE: "+oldPsyExpTicketPhase.getPrice());
-				System.out.println("NEW PSY EXP PRICE: "+getPsychedelicExperiencePrice());
-				
-				//There is a new Price on the Ticket Site
-				
-				//First we will insert the new Ticket Phase
-				FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
-				newTicketPhase.setFestival(psyExp.get());
-				newTicketPhase.setTitle("VVK");
-				newTicketPhase.setPrice(getPsychedelicExperiencePrice());
-				newTicketPhase.setSold("no");
-				newTicketPhase.setStarted("yes");
-				festivalTicketPhaseRepository.save(newTicketPhase);
-				
-				
-				//Now we will set the old TicketPhase to sold
-				oldPsyExpTicketPhase.setSold("yes");
-				festivalTicketPhaseRepository.save(oldPsyExpTicketPhase);
-				
-				//Notify Phones about new Ticket Phase
-				notifyNewTicketPhase(psyExp.get(), newTicketPhase);
-			}
-			
+		checkForNewTicketPhases(psyExp, getPsychedelicExperiencePrice());
+		
+		Optional<Festival> haiInDenMai = festivalRepository.findById(Constants.HAI_IN_DEN_MAI);
+		checkForNewTicketPhases(haiInDenMai, getHaiInDenMaiPrice());
+		
+		Optional<Festival> waldfriedenWonderland = festivalRepository.findById(Constants.WALDFRIEDEN_WONDERLAND);
+		checkForNewTicketPhases(waldfriedenWonderland, getWaldfriedenWonderlandPrice());
+		
+		Optional<Festival> forrestExplosion = festivalRepository.findById(Constants.FORREST_EXPLOSION);
+		checkForNewTicketPhases(forrestExplosion, getForrestExplosionPrice());
+		
+		Optional<Festival> antaris = festivalRepository.findById(Constants.ANTARIS);
+		checkForNewTicketPhases(antaris, getAntarisPrice());
+		
+		Optional<Festival> voov = festivalRepository.findById(Constants.VOOV);
+		checkForNewTicketPhases(voov, getVoovPrice());
+	}
+	
+	private void checkForNewTicketPhases(Optional<Festival> festival, Double newPrice) {
+		if(festival.isPresent()) {
+				FestivalTicketPhase oldTicketPhase = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(festival.get(), "no", "yes");
+				if(newPrice != null && !newPrice.equals(oldTicketPhase.getPrice())) {
+					System.out.println("OLD FESTIVAL PRICE: "+oldTicketPhase.getPrice());
+					System.out.println("NEW FESTIVAL PRICE: "+newPrice);
+					
+					//There is a new Price on the Ticket Site
+					
+					//First we will insert the new Ticket Phase
+					FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
+					newTicketPhase.setFestival(festival.get());
+					newTicketPhase.setTitle("VVK");
+					newTicketPhase.setPrice(newPrice);
+					newTicketPhase.setSold("no");
+					newTicketPhase.setStarted("yes");
+					festivalTicketPhaseRepository.save(newTicketPhase);
+					
+					
+					//Now we will set the old TicketPhase to sold
+					oldTicketPhase.setSold("yes");
+					festivalTicketPhaseRepository.save(oldTicketPhase);
+					
+					//Notify Phones about new Ticket Phase
+					notifyNewTicketPhase(festival.get(), newTicketPhase);
+				}
 		}
-		
-		
 	}
 	
 	private Double getPsychedelicCircusPrice() {
@@ -140,8 +131,6 @@ public class TicketPhaseAnalyzer {
 	
 	private Double getPsychedelicExperiencePrice() {
 
-
-
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.PSYCHEDELIC_EXPERIENCE_TICKET_URL).get();
@@ -165,6 +154,103 @@ public class TicketPhaseAnalyzer {
 		return null;
 	}
 	
+	private Double getHaiInDenMaiPrice() {
+		
+		Document doc;
+		try {
+			doc = Jsoup.connect(Constants.HAI_IN_DEN_MAI_TICKET_URL).get();
+			Elements priceItems = doc.getElementsByClass("price--content content--default");
+			for(Element item:priceItems) {
+				String price = item.select(":root > meta").attr("content");
+				return Double.parseDouble(price);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+	
+	private Double getWaldfriedenWonderlandPrice() {
+			
+		Document doc;
+		try {
+			doc = Jsoup.connect(Constants.WALDFRIEDEN_WONDERLAND_TICKET_URL).get();
+			Elements priceItems = doc.getElementsByClass("price--content content--default");
+			for(Element item:priceItems) {
+				String price = item.select(":root > meta").attr("content");
+				return Double.parseDouble(price);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+	
+	private Double getForrestExplosionPrice() {
+		
+		Document doc;
+		try {
+			doc = Jsoup.connect(Constants.FORREST_EXPLOSION_TICKET_URL).get();
+			Elements priceElements = doc.getElementsByClass("h1 stage__promo");
+			for(Element priceEl : priceElements) {
+				String priceString = priceEl.text();
+				String priceExtracted = priceString.replaceAll("[^\\d.]", "");
+				return Double.parseDouble(priceExtracted);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+	
+	private Double getAntarisPrice() {
+		
+		Document doc;
+		try {
+			doc = Jsoup.connect(Constants.ANTARIS_TICKET_URL).get();
+			String priceString = doc.select(".sell_amount_aktiv").text();
+			String priceExtracted = priceString.replaceAll("[ €]", "");
+			NumberFormat format = NumberFormat.getInstance(Locale.GERMAN);
+			Number number;
+			try {
+				number = format.parse(priceExtracted);
+				return number.doubleValue();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+	
+	private Double getVoovPrice() {
+		
+		Document doc;
+		try {
+			doc = Jsoup.connect(Constants.VOOV_TICKET_URL).get();
+			Element priceElement = doc.getElementsByClass("price uk-text-right uk-width-2-5 uk-width-small-2-6").get(0);
+			String priceString = priceElement.select("span").text();
+			String priceExtracted = priceString.replaceAll("[€ EUR]", "");
+			return Double.parseDouble(priceExtracted);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+		
 	private void notifyNewTicketPhase(Festival festival, FestivalTicketPhase festivalTicketPhase) {
 		try {
 			pushController.send(festival.getName()+" naechste Ticketphase", 
