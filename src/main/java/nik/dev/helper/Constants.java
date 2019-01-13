@@ -11,6 +11,10 @@ public class Constants {
 	public static final String FORREST_EXPLOSION_TICKET_URL = "http://www.forrest-explosion.de/";
 	public static final String ANTARIS_TICKET_URL = "https://antaris-project.ebtix.de/event/MVJRZN/shop/index?no_title=true&no_image=true&ascale=true";
 	public static final String VOOV_TICKET_URL = "https://bit.ly/2BYiUC4";
+	public static final String SIMSALABOOM_TICKET_URL = "https://tickets.ssb-festival.de/ssb/2019/";
+	public static final String SHINING_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=125596&point_of_sale_id=16754";
+	public static final String BACHBLYTEN_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=126716&point_of_sale_id=19023";
+	public static final String INDIAN_SPIRIT_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=125457&point_of_sale_id=16502";
 	/**
 	 * Festival IDs
 	 */
@@ -21,4 +25,8 @@ public class Constants {
 	public static final Long FORREST_EXPLOSION = 17L;
 	public static final Long ANTARIS = 18L;
 	public static final Long VOOV = 20L;
+	public static final Long SIMSALABOOM = 21L;
+	public static final Long SHINING = 22L;
+	public static final Long BACHBLYTEN = 23L;
+	public static final Long INDIAN_SPIRIT = 25L;
 }
