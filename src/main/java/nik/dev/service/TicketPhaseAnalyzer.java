@@ -74,7 +74,9 @@ public class TicketPhaseAnalyzer {
 	private void checkForNewTicketPhases(Optional<Festival> festival, Double newPrice) {
 		if(festival.isPresent()) {
 				FestivalTicketPhase oldTicketPhase = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(festival.get(), "no", "yes");
-				if(newPrice != null && !newPrice.equals(oldTicketPhase.getPrice())) {
+
+				if(oldTicketPhase == null || (newPrice != null && !newPrice.equals(oldTicketPhase.getPrice()))) {
+					System.out.println("NEW PRICE FOR FESTIVAL TICKET: "+festival.get().getName());
 					System.out.println("OLD FESTIVAL PRICE: "+oldTicketPhase.getPrice());
 					System.out.println("NEW FESTIVAL PRICE: "+newPrice);
 					
@@ -253,7 +255,7 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.VOOV_TICKET_URL).get();
 			Element priceElement = doc.getElementsByClass("price uk-text-right uk-width-2-5 uk-width-small-2-6").get(0);
-			String priceString = priceElement.select("span").text();
+			String priceString = priceElement.select("input").attr("data-total-price-incl");
 			String priceExtracted = priceString.replaceAll("[€ EUR]", "");
 			return Double.parseDouble(priceExtracted);
 		} catch (IOException e) {
