@@ -77,7 +77,12 @@ public class TicketPhaseAnalyzer {
 
 				if(oldTicketPhase == null || (newPrice != null && !newPrice.equals(oldTicketPhase.getPrice()))) {
 					System.out.println("NEW PRICE FOR FESTIVAL TICKET: "+festival.get().getName());
-					System.out.println("OLD FESTIVAL PRICE: "+oldTicketPhase.getPrice());
+					if(oldTicketPhase == null) {
+						System.out.println("THERE WAS NO OLD TICKET PRICE");
+					}else {
+						System.out.println("OLD FESTIVAL PRICE: "+oldTicketPhase.getPrice());
+					}
+					
 					System.out.println("NEW FESTIVAL PRICE: "+newPrice);
 					
 					//There is a new Price on the Ticket Site
