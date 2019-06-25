@@ -15,6 +15,7 @@ public class Constants {
 	public static final String SHINING_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=125596&point_of_sale_id=16754";
 	public static final String BACHBLYTEN_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=126716&point_of_sale_id=19023";
 	public static final String INDIAN_SPIRIT_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=125457&point_of_sale_id=16502";
+	public static final String EARTHQUAKE_TICKET_URL = "https://cdn.csone.dgbrt.de/static-shop/event/83.html";
 	/**
 	 * Festival IDs
 	 */
@@ -29,4 +30,5 @@ public class Constants {
 	public static final Long SHINING = 22L;
 	public static final Long BACHBLYTEN = 23L;
 	public static final Long INDIAN_SPIRIT = 25L;
+	public static final Long EARTHQUAKE = 26L;
 }

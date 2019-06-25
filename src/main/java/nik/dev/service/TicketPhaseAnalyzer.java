@@ -74,35 +74,42 @@ public class TicketPhaseAnalyzer {
 	private void checkForNewTicketPhases(Optional<Festival> festival, Double newPrice) {
 		if(festival.isPresent()) {
 				FestivalTicketPhase oldTicketPhase = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(festival.get(), "no", "yes");
-
-				if(oldTicketPhase == null || (newPrice != null && !newPrice.equals(oldTicketPhase.getPrice()))) {
-					System.out.println("NEW PRICE FOR FESTIVAL TICKET: "+festival.get().getName());
-					if(oldTicketPhase == null) {
-						System.out.println("THERE WAS NO OLD TICKET PRICE");
-					}else {
-						System.out.println("OLD FESTIVAL PRICE: "+oldTicketPhase.getPrice());
+				if(newPrice != null) {
+					
+					
+					if (oldTicketPhase == null || !newPrice.equals(oldTicketPhase.getPrice())) {
+						System.out.println("NEW PRICE FOR FESTIVAL TICKET: "+festival.get().getName());
+						System.out.println("NEW FESTIVAL PRICE: "+newPrice);
+						//If there is no old TicketPhase OR the newPrice is different then the old one
+						//Save the new price
+						
+						//There is a new Price on the Ticket Site
+						
+						//First we will insert the new Ticket Phase
+						FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
+						newTicketPhase.setFestival(festival.get());
+						newTicketPhase.setTitle("VVK");
+						newTicketPhase.setPrice(newPrice);
+						newTicketPhase.setSold("no");
+						newTicketPhase.setStarted("yes");
+						festivalTicketPhaseRepository.save(newTicketPhase);
+						
+						//Notify Phones about new Ticket Phase
+						//notifyNewTicketPhase(festival.get(), newTicketPhase);
+						
+					}else if(oldTicketPhase != null && !newPrice.equals(oldTicketPhase.getPrice())){
+						//If oldTicketPhase exist and new price is not equal
+						//Then we set old as sold
+						oldTicketPhase.setSold("yes");
+						festivalTicketPhaseRepository.save(oldTicketPhase);
 					}
-					
-					System.out.println("NEW FESTIVAL PRICE: "+newPrice);
-					
-					//There is a new Price on the Ticket Site
-					
-					//First we will insert the new Ticket Phase
-					FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
-					newTicketPhase.setFestival(festival.get());
-					newTicketPhase.setTitle("VVK");
-					newTicketPhase.setPrice(newPrice);
-					newTicketPhase.setSold("no");
-					newTicketPhase.setStarted("yes");
-					festivalTicketPhaseRepository.save(newTicketPhase);
-					
-					
-					//Now we will set the old TicketPhase to sold
+				
+				}else if(newPrice == null && oldTicketPhase != null) {
+					//Ticketsphases are over - Festival is done
+					//So we set old 
+					System.out.println("New Price is for the festival ["+festival.get().getName()+"] null so the festival is done");
 					oldTicketPhase.setSold("yes");
 					festivalTicketPhaseRepository.save(oldTicketPhase);
-					
-					//Notify Phones about new Ticket Phase
-					notifyNewTicketPhase(festival.get(), newTicketPhase);
 				}
 		}
 	}
@@ -114,6 +121,10 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.PSYCHEDELIC_CIRCUS_TICKET_URL).get();
 			Elements panelItems = doc.getElementsByClass("uk-panel uk-panel-box");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(panelItems == null) {
+				return null;
+			}
 			for (Element item : panelItems) {
 				String collapseTitle = item.select(":root > h3").text();
 				if(collapseTitle.equals("Tickets")) {
@@ -142,8 +153,8 @@ public class TicketPhaseAnalyzer {
 				
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for psy circus:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -155,20 +166,25 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.PSYCHEDELIC_EXPERIENCE_TICKET_URL).get();
 			Element detailPrice = doc.getElementById("detailsPrice");
-			NumberFormat format = NumberFormat.getInstance(Locale.GERMAN);
-			Number number;
-			try {
-				number = format.parse(detailPrice.text());
-				return number.doubleValue();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			System.out.println("detailPrice: "+detailPrice);
+			
+			//detailPrice is null when it doesnt exist anymore - maybe the festival is done
+			if(detailPrice == null) {
+				return null;
+			}else {
+				NumberFormat format = NumberFormat.getInstance(Locale.GERMAN);
+				Number number;
+				try {
+					number = format.parse(detailPrice.text());
+					return number.doubleValue();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for psychedelic experience:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -179,14 +195,19 @@ public class TicketPhaseAnalyzer {
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.HAI_IN_DEN_MAI_TICKET_URL).get();
+			
 			Elements priceItems = doc.getElementsByClass("price--content content--default");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(priceItems == null) {
+				return null;
+			}
 			for(Element item:priceItems) {
 				String price = item.select(":root > meta").attr("content");
 				return Double.parseDouble(price);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for Hai in den Mai:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -198,13 +219,17 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.WALDFRIEDEN_WONDERLAND_TICKET_URL).get();
 			Elements priceItems = doc.getElementsByClass("price--content content--default");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(priceItems == null) {
+				return null;
+			}
 			for(Element item:priceItems) {
 				String price = item.select(":root > meta").attr("content");
 				return Double.parseDouble(price);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for waldfrieden:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -216,14 +241,18 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.FORREST_EXPLOSION_TICKET_URL).get();
 			Elements priceElements = doc.getElementsByClass("h1 stage__promo");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(priceElements == null) {
+				return null;
+			}
 			for(Element priceEl : priceElements) {
 				String priceString = priceEl.text();
 				String priceExtracted = priceString.replaceAll("[^\\d.]", "");
 				return Double.parseDouble(priceExtracted);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for forrest explosion:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -247,8 +276,8 @@ public class TicketPhaseAnalyzer {
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for antaris:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -264,8 +293,8 @@ public class TicketPhaseAnalyzer {
 			String priceExtracted = priceString.replaceAll("[€ EUR]", "");
 			return Double.parseDouble(priceExtracted);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for voov:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 	}
@@ -276,6 +305,10 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.SIMSALABOOM_TICKET_URL).get();
 			Elements priceRows = doc.getElementsByClass("row-fluid product-row simple");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(priceRows == null) {
+				return null;
+			}
 			for(Element priceRow : priceRows) {
 				Elements cols = priceRow.select("div");
 				for(Element col : cols) {
@@ -297,8 +330,8 @@ public class TicketPhaseAnalyzer {
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for simsalaboom:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -311,6 +344,10 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.SHINING_TICKET_URL).get();
 			Elements panelItems = doc.getElementsByClass("uk-panel uk-panel-box");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(panelItems == null) {
+				return null;
+			}
 			for (Element item : panelItems) {
 					Element table = item.select("table").get(0);
 					
@@ -335,8 +372,8 @@ public class TicketPhaseAnalyzer {
 				
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for shining:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -347,6 +384,10 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.BACHBLYTEN_TICKET_URL).get();
 			Elements panelItems = doc.getElementsByClass("uk-panel uk-panel-box");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(panelItems == null) {
+				return null;
+			}
 			for (Element item : panelItems) {
 					Element table = item.select("table").get(0);
 					Elements rows = table.select("tr");
@@ -371,8 +412,8 @@ public class TicketPhaseAnalyzer {
 				
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for bachbylten:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
@@ -385,6 +426,10 @@ public class TicketPhaseAnalyzer {
 		try {
 			doc = Jsoup.connect(Constants.INDIAN_SPIRIT_TICKET_URL).get();
 			Elements panelItems = doc.getElementsByClass("uk-panel uk-panel-box");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(panelItems == null) {
+				return null;
+			}
 			for (Element item : panelItems) {
 				String collapseTitle = item.select(":root > h3").text();
 				if(collapseTitle.equals("Tickets")) {
@@ -413,8 +458,8 @@ public class TicketPhaseAnalyzer {
 				
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("TicketPhase for indian spirit:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 		return null;
