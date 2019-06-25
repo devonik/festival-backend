@@ -38,7 +38,7 @@ public class App
     */
     
     //Starting Job on at 10 on every day
-    @Scheduled(cron="0 0 13 ? * *")
+    @Scheduled(cron="0 0 14 ? * *")
     //@Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
         System.out.println("The time is now:" + dateFormat.format(new Date()));
