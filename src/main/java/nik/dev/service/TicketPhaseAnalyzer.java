@@ -95,7 +95,7 @@ public class TicketPhaseAnalyzer {
 						festivalTicketPhaseRepository.save(newTicketPhase);
 						
 						//Notify Phones about new Ticket Phase
-						//notifyNewTicketPhase(festival.get(), newTicketPhase);
+						notifyNewTicketPhase(festival.get(), newTicketPhase);
 						
 					}else if(oldTicketPhase != null && !newPrice.equals(oldTicketPhase.getPrice())){
 						//If oldTicketPhase exist and new price is not equal
