@@ -123,6 +123,9 @@ public class TicketPhaseAnalyzer {
 					newTicketPhase.setSold("no");
 					newTicketPhase.setStarted("yes");
 					festivalTicketPhaseRepository.save(newTicketPhase);
+
+					//Notify Phones about new Ticket Phase
+					notifyNewTicketPhase(festival.get(), newTicketPhase);
 				}
 		}
 	}
