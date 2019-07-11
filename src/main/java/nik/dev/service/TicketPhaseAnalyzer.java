@@ -73,43 +73,56 @@ public class TicketPhaseAnalyzer {
 	
 	private void checkForNewTicketPhases(Optional<Festival> festival, Double newPrice) {
 		if(festival.isPresent()) {
-				FestivalTicketPhase oldTicketPhase = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(festival.get(), "no", "yes");
-				if(newPrice != null) {
+				Optional<FestivalTicketPhase> oldTicketPhaseOptional = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(festival.get(), "no", "yes");
+
 					
-					
-					if (oldTicketPhase == null || !newPrice.equals(oldTicketPhase.getPrice())) {
-						System.out.println("NEW PRICE FOR FESTIVAL TICKET: "+festival.get().getName());
-						System.out.println("NEW FESTIVAL PRICE: "+newPrice);
-						//If there is no old TicketPhase OR the newPrice is different then the old one
-						//Save the new price
-						
-						//There is a new Price on the Ticket Site
-						
-						//First we will insert the new Ticket Phase
-						FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
-						newTicketPhase.setFestival(festival.get());
-						newTicketPhase.setTitle("VVK");
-						newTicketPhase.setPrice(newPrice);
-						newTicketPhase.setSold("no");
-						newTicketPhase.setStarted("yes");
-						festivalTicketPhaseRepository.save(newTicketPhase);
-						
-						//Notify Phones about new Ticket Phase
-						notifyNewTicketPhase(festival.get(), newTicketPhase);
-						
-					}else if(oldTicketPhase != null && !newPrice.equals(oldTicketPhase.getPrice())){
-						//If oldTicketPhase exist and new price is not equal
-						//Then we set old as sold
+				if(oldTicketPhaseOptional.isPresent()){
+					FestivalTicketPhase oldTicketPhase = oldTicketPhaseOptional.get();
+					System.out.println("Old Ticket Phase found");
+					if(newPrice != null) {
+						if (!newPrice.equals(oldTicketPhase.getPrice())) {
+							System.out.println("NEW PRICE FOR FESTIVAL TICKET: " + festival.get().getName());
+							System.out.println("NEW FESTIVAL PRICE: " + newPrice);
+							//If there is no old TicketPhase OR the newPrice is different then the old one
+							//Save the new price
+
+							//There is a new Price on the Ticket Site
+
+							//First we will insert the new Ticket Phase
+							FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
+							newTicketPhase.setFestival(festival.get());
+							newTicketPhase.setTitle("VVK");
+							newTicketPhase.setPrice(newPrice);
+							newTicketPhase.setSold("no");
+							newTicketPhase.setStarted("yes");
+							festivalTicketPhaseRepository.save(newTicketPhase);
+
+							//Notify Phones about new Ticket Phase
+							notifyNewTicketPhase(festival.get(), newTicketPhase);
+
+							//If oldTicketPhase exist and new price is not equal
+							//Then we set old as sold
+							oldTicketPhase.setSold("yes");
+							festivalTicketPhaseRepository.save(oldTicketPhase);
+						}
+					}else{
+						//Ticketsphases are over - Festival is done
+						//So we set old
+						System.out.println("New Price is for the festival ["+festival.get().getName()+"] null so the festival is done");
 						oldTicketPhase.setSold("yes");
 						festivalTicketPhaseRepository.save(oldTicketPhase);
 					}
-				
-				}else if(newPrice == null && oldTicketPhase != null) {
-					//Ticketsphases are over - Festival is done
-					//So we set old 
-					System.out.println("New Price is for the festival ["+festival.get().getName()+"] null so the festival is done");
-					oldTicketPhase.setSold("yes");
-					festivalTicketPhaseRepository.save(oldTicketPhase);
+
+
+				}else if(newPrice != null){
+					System.out.println("No old Ticket Phase found. The newPrice will be saved");
+					FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
+					newTicketPhase.setFestival(festival.get());
+					newTicketPhase.setTitle("VVK");
+					newTicketPhase.setPrice(newPrice);
+					newTicketPhase.setSold("no");
+					newTicketPhase.setStarted("yes");
+					festivalTicketPhaseRepository.save(newTicketPhase);
 				}
 		}
 	}

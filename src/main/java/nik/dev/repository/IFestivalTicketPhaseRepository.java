@@ -1,6 +1,7 @@
 package nik.dev.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,5 +11,5 @@ import nik.dev.model.MusicGenre;
 
 public interface IFestivalTicketPhaseRepository extends CrudRepository<FestivalTicketPhase, Long> {
 	List<FestivalTicketPhase> findByFestival(Festival festival);
-	FestivalTicketPhase findByFestivalAndSoldAndStarted(Festival festival, String sold, String started);
+	Optional<FestivalTicketPhase> findByFestivalAndSoldAndStarted(Festival festival, String sold, String started);
 }
