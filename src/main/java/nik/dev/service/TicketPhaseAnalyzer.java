@@ -78,7 +78,7 @@ public class TicketPhaseAnalyzer {
 					
 				if(oldTicketPhaseOptional.isPresent()){
 					FestivalTicketPhase oldTicketPhase = oldTicketPhaseOptional.get();
-					System.out.println("Old Ticket Phase found");
+					System.out.println("Old Ticket Phase found. New Price: ["+newPrice+"]");
 					if(newPrice != null) {
 						if (!newPrice.equals(oldTicketPhase.getPrice())) {
 							System.out.println("NEW PRICE FOR FESTIVAL TICKET: " + festival.get().getName());
