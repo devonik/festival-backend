@@ -39,32 +39,32 @@ public class TicketPhaseAnalyzer {
 		Optional<Festival> circus = festivalRepository.findById(Constants.PSYCHEDELIC_CIRCUS);
 		checkForNewTicketPhases(circus, getPsychedelicCircusPrice());
 		
-		Optional<Festival> psyExp = festivalRepository.findById(Constants.PSYCHEDELIC_EXPERIENCE);
+		/*Optional<Festival> psyExp = festivalRepository.findById(Constants.PSYCHEDELIC_EXPERIENCE);
 		checkForNewTicketPhases(psyExp, getPsychedelicExperiencePrice());
 		
 		Optional<Festival> haiInDenMai = festivalRepository.findById(Constants.HAI_IN_DEN_MAI);
 		checkForNewTicketPhases(haiInDenMai, getHaiInDenMaiPrice());
 		
 		Optional<Festival> waldfriedenWonderland = festivalRepository.findById(Constants.WALDFRIEDEN_WONDERLAND);
-		checkForNewTicketPhases(waldfriedenWonderland, getWaldfriedenWonderlandPrice());
+		checkForNewTicketPhases(waldfriedenWonderland, getWaldfriedenWonderlandPrice());*/
 		
 		Optional<Festival> forrestExplosion = festivalRepository.findById(Constants.FORREST_EXPLOSION);
 		checkForNewTicketPhases(forrestExplosion, getForrestExplosionPrice());
 		
-		Optional<Festival> antaris = festivalRepository.findById(Constants.ANTARIS);
-		checkForNewTicketPhases(antaris, getAntarisPrice());
+		/*Optional<Festival> antaris = festivalRepository.findById(Constants.ANTARIS);
+		checkForNewTicketPhases(antaris, getAntarisPrice());*/
 		
 		Optional<Festival> voov = festivalRepository.findById(Constants.VOOV);
 		checkForNewTicketPhases(voov, getVoovPrice());
 		
-		Optional<Festival> simsalaboom = festivalRepository.findById(Constants.SIMSALABOOM);
+		/*Optional<Festival> simsalaboom = festivalRepository.findById(Constants.SIMSALABOOM);
 		checkForNewTicketPhases(simsalaboom, getSimsalaboomPrice());
 		
 		Optional<Festival> shining = festivalRepository.findById(Constants.SHINING);
 		checkForNewTicketPhases(shining, getShiningPrice());
 		
 		Optional<Festival> bachbylten = festivalRepository.findById(Constants.BACHBLYTEN);
-		checkForNewTicketPhases(bachbylten, getBachbyltenPrice());
+		checkForNewTicketPhases(bachbylten, getBachbyltenPrice());*/
 		
 		Optional<Festival> indian = festivalRepository.findById(Constants.INDIAN_SPIRIT);
 		checkForNewTicketPhases(indian, getIndianSpiritPrice());
@@ -73,6 +73,7 @@ public class TicketPhaseAnalyzer {
 	
 	private void checkForNewTicketPhases(Optional<Festival> festival, Double newPrice) {
 		if(festival.isPresent()) {
+			System.out.println("check new ticket phase for festival: ["+festival.get().getName()+"]");
 				Optional<FestivalTicketPhase> oldTicketPhaseOptional = festivalTicketPhaseRepository.findByFestivalAndSoldAndStarted(festival.get(), "no", "yes");
 
 					
@@ -95,37 +96,37 @@ public class TicketPhaseAnalyzer {
 							newTicketPhase.setPrice(newPrice);
 							newTicketPhase.setSold("no");
 							newTicketPhase.setStarted("yes");
-							festivalTicketPhaseRepository.save(newTicketPhase);
+							//festivalTicketPhaseRepository.save(newTicketPhase);
 
 							//Notify Phones about new Ticket Phase
-							notifyNewTicketPhase(festival.get(), newTicketPhase);
+							//notifyNewTicketPhase(festival.get(), newTicketPhase);
 
 							//If oldTicketPhase exist and new price is not equal
 							//Then we set old as sold
 							oldTicketPhase.setSold("yes");
-							festivalTicketPhaseRepository.save(oldTicketPhase);
+							//festivalTicketPhaseRepository.save(oldTicketPhase);
 						}
 					}else{
 						//Ticketsphases are over - Festival is done
 						//So we set old
-						System.out.println("New Price is for the festival ["+festival.get().getName()+"] null so the festival is done");
+						System.out.println("New Price is null so the festival is done");
 						oldTicketPhase.setSold("yes");
-						festivalTicketPhaseRepository.save(oldTicketPhase);
+						//festivalTicketPhaseRepository.save(oldTicketPhase);
 					}
 
 
 				}else if(newPrice != null){
-					System.out.println("No old Ticket Phase found. The newPrice will be saved");
+					System.out.println("No old Ticket Phase found. The newPrice ["+newPrice+"] will be saved");
 					FestivalTicketPhase newTicketPhase = new FestivalTicketPhase();
 					newTicketPhase.setFestival(festival.get());
 					newTicketPhase.setTitle("VVK");
 					newTicketPhase.setPrice(newPrice);
 					newTicketPhase.setSold("no");
 					newTicketPhase.setStarted("yes");
-					festivalTicketPhaseRepository.save(newTicketPhase);
+					//festivalTicketPhaseRepository.save(newTicketPhase);
 
 					//Notify Phones about new Ticket Phase
-					notifyNewTicketPhase(festival.get(), newTicketPhase);
+					//notifyNewTicketPhase(festival.get(), newTicketPhase);
 				}
 		}
 	}
@@ -136,37 +137,20 @@ public class TicketPhaseAnalyzer {
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.PSYCHEDELIC_CIRCUS_TICKET_URL).get();
-			Elements panelItems = doc.getElementsByClass("uk-panel uk-panel-box");
+			Elements panelItems = doc.getElementsByClass("products__item direction-row");
 			//element is null when it doesnt exist anymore - maybe the festival is done
 			if(panelItems == null) {
 				return null;
 			}
 			for (Element item : panelItems) {
-				String collapseTitle = item.select(":root > h3").text();
-				if(collapseTitle.equals("Tickets")) {
-					Element table = item.select("table").get(0);
-					Elements rows = table.select("tr");
-					for(Element row : rows) {
-						Elements cols = row.select("td");
-						
-						Element amountTicketSelect = row.select("select").get(0);
-						String style = amountTicketSelect.attr("style");
-						if(!style.equals("display: none;")){
-							for(Element col : cols) {
-								String classString = col.attr("class");
-								if(classString.equals("price uk-text-right uk-width-2-5 uk-width-small-2-6")) {
-									//Here we are in the Column where the Price is
-									String price = col.select("span").get(0).text();
-									String priceExtracted = price.replaceAll("[€ EUR]", "");
-									return Double.parseDouble(priceExtracted);
-									
-								}
-							}
-							
-						}
+				if(!item.hasClass("products__item--sold-out")){
+					//If the current item doesn't have the class sold out its the current price
+					Element currentTicket = item.getElementsByClass("amount transition-color").get(0);
+					if(currentTicket != null){
+						String priceExtracted = currentTicket.text().replaceAll("[€&nbsp;]", "");
+						return Double.parseDouble(priceExtracted);
 					}
 				}
-				
 			}
 		} catch (IOException e) {
 			System.out.println("TicketPhase for psy circus:");
@@ -256,15 +240,17 @@ public class TicketPhaseAnalyzer {
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.FORREST_EXPLOSION_TICKET_URL).get();
-			Elements priceElements = doc.getElementsByClass("h1 stage__promo");
+			Element body = doc.getElementsByClass("stage__body").get(0);
 			//element is null when it doesnt exist anymore - maybe the festival is done
-			if(priceElements == null) {
+			if(body == null) {
 				return null;
-			}
-			for(Element priceEl : priceElements) {
-				String priceString = priceEl.text();
-				String priceExtracted = priceString.replaceAll("[^\\d.]", "");
-				return Double.parseDouble(priceExtracted);
+			}else{
+				Element ticketButton = body.getElementsByTag("a").get(0);
+				if(ticketButton != null){
+					String priceString = ticketButton.attr("title");
+					String priceExtracted = priceString.replaceAll("[^\\d.]", "");
+					return Double.parseDouble(priceExtracted);
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("TicketPhase for forrest explosion:");
@@ -304,17 +290,22 @@ public class TicketPhaseAnalyzer {
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.VOOV_TICKET_URL).get();
-			Element priceElement = doc.getElementsByClass("price uk-text-right uk-width-2-5 uk-width-small-2-6").get(0);
-			String priceString = priceElement.select("input").attr("data-total-price-incl");
-			String priceExtracted = priceString.replaceAll("[€ EUR]", "");
-			return Double.parseDouble(priceExtracted);
+			Element priceElement = doc.getElementsByClass("ticketSinglePrice").get(0);
+			if(priceElement != null){
+				String priceString = priceElement.text();
+				String dumbStr = priceString.replaceAll("[Cost: Eur]", "");
+				String priceExtracted = dumbStr.replace(",", ".");
+				return Double.parseDouble(priceExtracted);
+			}else{
+				return null;
+			}
 		} catch (IOException e) {
 			System.out.println("TicketPhase for voov:");
 			System.out.println("The ticket page cant be found maybe the festival is over");
 			return null;
 		}
 	}
-	
+
 	private Double getSimsalaboomPrice() {
 		
 		Document doc;
@@ -441,37 +432,20 @@ public class TicketPhaseAnalyzer {
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.INDIAN_SPIRIT_TICKET_URL).get();
-			Elements panelItems = doc.getElementsByClass("uk-panel uk-panel-box");
+			Elements panelItems = doc.getElementsByClass("products__item direction-row");
 			//element is null when it doesnt exist anymore - maybe the festival is done
 			if(panelItems == null) {
 				return null;
 			}
 			for (Element item : panelItems) {
-				String collapseTitle = item.select(":root > h3").text();
-				if(collapseTitle.equals("Tickets")) {
-					Element table = item.select("table").get(0);
-					Elements rows = table.select("tr");
-					for(Element row : rows) {
-						Elements cols = row.select("td");
-						
-						Element amountTicketSelect = row.select("select").get(0);
-						String style = amountTicketSelect.attr("style");
-						if(!style.equals("display: none;")){
-							for(Element col : cols) {
-								String classString = col.attr("class");
-								if(classString.equals("price uk-text-right uk-width-2-5 uk-width-small-2-6")) {
-									//Here we are in the Column where the Price is
-									String price = col.select("span").get(0).text();
-									String priceExtracted = price.replaceAll("[€ EUR]", "");
-									return Double.parseDouble(priceExtracted);
-									
-								}
-							}
-							
-						}
+				if(!item.hasClass("products__item--sold-out")){
+					//If the current item doesn't have the class sold out its the current price
+					Element currentTicket = item.getElementsByClass("amount transition-color").get(0);
+					if(currentTicket != null){
+						String priceExtracted = currentTicket.text().replaceAll("[€&nbsp;]", "");
+						return Double.parseDouble(priceExtracted);
 					}
 				}
-				
 			}
 		} catch (IOException e) {
 			System.out.println("TicketPhase for indian spirit:");
