@@ -96,22 +96,22 @@ public class TicketPhaseAnalyzer {
 							newTicketPhase.setPrice(newPrice);
 							newTicketPhase.setSold("no");
 							newTicketPhase.setStarted("yes");
-							//festivalTicketPhaseRepository.save(newTicketPhase);
+							festivalTicketPhaseRepository.save(newTicketPhase);
 
 							//Notify Phones about new Ticket Phase
-							//notifyNewTicketPhase(festival.get(), newTicketPhase);
+							notifyNewTicketPhase(festival.get(), newTicketPhase);
 
 							//If oldTicketPhase exist and new price is not equal
 							//Then we set old as sold
 							oldTicketPhase.setSold("yes");
-							//festivalTicketPhaseRepository.save(oldTicketPhase);
+							festivalTicketPhaseRepository.save(oldTicketPhase);
 						}
 					}else{
 						//Ticketsphases are over - Festival is done
 						//So we set old
 						System.out.println("New Price is null so the festival is done");
 						oldTicketPhase.setSold("yes");
-						//festivalTicketPhaseRepository.save(oldTicketPhase);
+						festivalTicketPhaseRepository.save(oldTicketPhase);
 					}
 
 
@@ -123,10 +123,10 @@ public class TicketPhaseAnalyzer {
 					newTicketPhase.setPrice(newPrice);
 					newTicketPhase.setSold("no");
 					newTicketPhase.setStarted("yes");
-					//festivalTicketPhaseRepository.save(newTicketPhase);
+					festivalTicketPhaseRepository.save(newTicketPhase);
 
 					//Notify Phones about new Ticket Phase
-					//notifyNewTicketPhase(festival.get(), newTicketPhase);
+					notifyNewTicketPhase(festival.get(), newTicketPhase);
 				}
 		}
 	}
