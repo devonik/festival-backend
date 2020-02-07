@@ -39,35 +39,39 @@ public class TicketPhaseAnalyzer {
 		Optional<Festival> circus = festivalRepository.findById(Constants.PSYCHEDELIC_CIRCUS);
 		checkForNewTicketPhases(circus, getPsychedelicCircusPrice());
 		
-		/*Optional<Festival> psyExp = festivalRepository.findById(Constants.PSYCHEDELIC_EXPERIENCE);
+		Optional<Festival> psyExp = festivalRepository.findById(Constants.PSYCHEDELIC_EXPERIENCE);
 		checkForNewTicketPhases(psyExp, getPsychedelicExperiencePrice());
 		
 		Optional<Festival> haiInDenMai = festivalRepository.findById(Constants.HAI_IN_DEN_MAI);
 		checkForNewTicketPhases(haiInDenMai, getHaiInDenMaiPrice());
 		
 		Optional<Festival> waldfriedenWonderland = festivalRepository.findById(Constants.WALDFRIEDEN_WONDERLAND);
-		checkForNewTicketPhases(waldfriedenWonderland, getWaldfriedenWonderlandPrice());*/
-		
+		checkForNewTicketPhases(waldfriedenWonderland, getWaldfriedenWonderlandPrice());
+	
 		Optional<Festival> forrestExplosion = festivalRepository.findById(Constants.FORREST_EXPLOSION);
 		checkForNewTicketPhases(forrestExplosion, getForrestExplosionPrice());
 		
-		/*Optional<Festival> antaris = festivalRepository.findById(Constants.ANTARIS);
-		checkForNewTicketPhases(antaris, getAntarisPrice());*/
+		//Optional<Festival> antaris = festivalRepository.findById(Constants.ANTARIS);
+		//checkForNewTicketPhases(antaris, getAntarisPrice());
 		
 		Optional<Festival> voov = festivalRepository.findById(Constants.VOOV);
 		checkForNewTicketPhases(voov, getVoovPrice());
 		
-		/*Optional<Festival> simsalaboom = festivalRepository.findById(Constants.SIMSALABOOM);
+		Optional<Festival> simsalaboom = festivalRepository.findById(Constants.SIMSALABOOM);
 		checkForNewTicketPhases(simsalaboom, getSimsalaboomPrice());
 		
-		Optional<Festival> shining = festivalRepository.findById(Constants.SHINING);
-		checkForNewTicketPhases(shining, getShiningPrice());
+		//Optional<Festival> shining = festivalRepository.findById(Constants.SHINING);
+		//checkForNewTicketPhases(shining, getShiningPrice());
 		
 		Optional<Festival> bachbylten = festivalRepository.findById(Constants.BACHBLYTEN);
-		checkForNewTicketPhases(bachbylten, getBachbyltenPrice());*/
+		checkForNewTicketPhases(bachbylten, getBachbyltenPrice());
 		
 		Optional<Festival> indian = festivalRepository.findById(Constants.INDIAN_SPIRIT);
 		checkForNewTicketPhases(indian, getIndianSpiritPrice());
+		
+		//Ticket page is to broken - i wont do that
+		//Optional<Festival> earthquake = festivalRepository.findById(Constants.EARTHQUAKE);
+		//checkForNewTicketPhases(earthquake, getEarthquakePrice());
 		
 	}
 	
@@ -432,20 +436,26 @@ public class TicketPhaseAnalyzer {
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.INDIAN_SPIRIT_TICKET_URL).get();
-			Elements panelItems = doc.getElementsByClass("products__item direction-row");
+			Elements panelItems = doc.getElementsByClass("products__col");
 			//element is null when it doesnt exist anymore - maybe the festival is done
 			if(panelItems == null) {
 				return null;
 			}
-			for (Element item : panelItems) {
-				if(!item.hasClass("products__item--sold-out")){
-					//If the current item doesn't have the class sold out its the current price
-					Element currentTicket = item.getElementsByClass("amount transition-color").get(0);
-					if(currentTicket != null){
-						String priceExtracted = currentTicket.text().replaceAll("[€&nbsp;]", "");
-						return Double.parseDouble(priceExtracted);
+			for (Element block : panelItems) {
+				Elements items = block.getElementsByClass("products__item");
+				for(Element item: items) {
+					if(!item.hasClass("products__item--sold-out")){
+						//If the current item doesn't have the class sold out its the current price
+						Element currentTicket = item.getElementsByClass("amount transition-color").get(0);
+						if(currentTicket != null){
+							String priceExtracted = currentTicket.text().replaceAll("[€&nbsp;]", "");
+							return Double.parseDouble(priceExtracted);
+						}
 					}
 				}
+				
+					
+				
 			}
 		} catch (IOException e) {
 			System.out.println("TicketPhase for indian spirit:");
@@ -454,7 +464,33 @@ public class TicketPhaseAnalyzer {
 		}
 		return null;
 	}
-	
+	//Ticket page is to broken - i wont do that
+	/*private Double getEarthquakePrice() {
+
+
+		Document doc;
+		try {
+			doc = Jsoup.connect(Constants.EARTHQUAKE_TICKET_URL).get();
+			Elements panelItems = doc.getElementsByClass("container");
+			//element is null when it doesnt exist anymore - maybe the festival is done
+			if(panelItems == null) {
+				return null;
+			}
+			Elements divs = panelItems.select("div");
+			Elements divs2 = divs.get(1).select("div");
+			System.out.println("panelItems"+panelItems);
+			
+				
+					
+				
+			}
+		} catch (IOException e) {
+			System.out.println("TicketPhase for indian spirit:");
+			System.out.println("The ticket page cant be found maybe the festival is over");
+			return null;
+		}
+		return null;
+	}*/
 		
 	private void notifyNewTicketPhase(Festival festival, FestivalTicketPhase festivalTicketPhase) {
 		try {
