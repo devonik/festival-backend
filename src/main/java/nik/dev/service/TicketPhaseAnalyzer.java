@@ -141,7 +141,7 @@ public class TicketPhaseAnalyzer {
 		Document doc;
 		try {
 			doc = Jsoup.connect(Constants.PSYCHEDELIC_CIRCUS_TICKET_URL).get();
-			Elements panelItems = doc.getElementsByClass("products__item direction-row");
+			Elements panelItems = doc.getElementsByClass("products products--row");
 			//element is null when it doesnt exist anymore - maybe the festival is done
 			if(panelItems == null) {
 				return null;
