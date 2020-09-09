@@ -18,6 +18,8 @@ import nik.dev.repository.IAdminRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("api/v1/admin")
 @CrossOrigin(origins = "*")
@@ -63,7 +65,7 @@ public class AdminController {
         Admin existingUser = adminRepository.findByUsername(admin.getUsername());
 
         //requestJSON.getString("password") != "" ... verhinder das das password gefüllt sein muss
-        if (existingUser == null && admin.getPassword() != "") {
+        if (existingUser == null && !Objects.equals(admin.getPassword(), "")) {
             String pwHash = createPassword(admin.getPassword());
             admin.setPassword(pwHash);
             adminRepository.save(admin);

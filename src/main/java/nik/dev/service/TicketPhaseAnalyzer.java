@@ -3,15 +3,23 @@ package nik.dev.service;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
+import nik.dev.model.dto.goabase.GoabaseListDto;
+import nik.dev.model.dto.goabase.GoabasePartyDto;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Service;
 
 import nik.dev.controller.PushController;
@@ -23,6 +31,7 @@ import nik.dev.model.WhatsNew;
 import nik.dev.repository.IFestivalRepository;
 import nik.dev.repository.IFestivalTicketPhaseRepository;
 import nik.dev.repository.IWhatsNewRepository;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class TicketPhaseAnalyzer {
@@ -34,7 +43,7 @@ public class TicketPhaseAnalyzer {
 	PushController pushController;
 	@Autowired
 	IWhatsNewRepository whatsNewRepository;
-	
+
 	public void start() {
 		Optional<Festival> circus = festivalRepository.findById(Constants.PSYCHEDELIC_CIRCUS);
 		checkForNewTicketPhases(circus, getPsychedelicCircusPrice());

@@ -3,6 +3,7 @@ package nik.dev;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nik.dev.service.GoabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +21,8 @@ public class App
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	@Autowired
 	private TicketPhaseAnalyzer ticketPhaseAnalyzer;
+    @Autowired
+    private GoabaseService goabaseService;
     public static void main( String[] args )
     {
         SpringApplication.run(App.class, args);
@@ -36,11 +39,17 @@ public class App
     Every 5 Seconds
     @Scheduled(fixedRate = 5000)
     */
-    
+
+    //Starting Job on at 08 on every day
+    @Scheduled(cron="0 0 08 ? * *")
+    public void checkGoabaseParties() {
+        System.out.println("The time is now:" + dateFormat.format(new Date()));
+        goabaseService.checkGoabaseParties();
+    }
+
     //Starting Job on at 10 on every day
     @Scheduled(cron="0 0 10 ? * *")
-    //@Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
+    public void startTicketPhaseAnalyzer() {
         System.out.println("The time is now:" + dateFormat.format(new Date()));
         ticketPhaseAnalyzer.start();
     }

@@ -41,6 +41,7 @@ public class Festival{
 		@Temporal(TemporalType.TIMESTAMP)
 		private Date datum_end;
 		private String syncStatus;
+		private Long goabaseId;
 		
 		//EAGER = MAGIC -- Dont delete the Child one (music Genre)
 		@ManyToMany(fetch = FetchType.EAGER)
@@ -277,5 +278,11 @@ public class Festival{
 		}
 
 
+	public Long getGoabaseId() {
+		return goabaseId;
+	}
 
+	public void setGoabaseId(Long goabaseId) {
+		this.goabaseId = goabaseId;
+	}
 }
