@@ -46,7 +46,7 @@ public class GoabaseService {
 
     private void insertOrUpdateParty(GoabasePartyDto goabaseParty){
             //Thumbnail can not be null yet so ignore the entry
-            if(goabaseParty.getUrlImageMedium() == null) return;
+            if(goabaseParty.getUrlImageFull() == null) return;
 
             Optional<Festival> festival = festivalRepository.findByGoabaseId(goabaseParty.getId());
 
@@ -72,7 +72,7 @@ public class GoabaseService {
                         festival.get().setName(goabaseParty.getNameParty());
                         festival.get().setDatum_start(startDate);
                         festival.get().setDatum_end(endDate);
-                        festival.get().setThumbnail_image_url(goabaseParty.getUrlImageMedium());
+                        festival.get().setThumbnail_image_url(goabaseParty.getUrlImageFull());
                         Festival updatedFestival = festivalRepository.save(festival.get());
 
                         String homepageUrl = null;
@@ -95,7 +95,7 @@ public class GoabaseService {
                     newFestival.setName(goabaseParty.getNameParty());
                     newFestival.setDatum_start(startDate);
                     newFestival.setDatum_end(endDate);
-                    newFestival.setThumbnail_image_url(goabaseParty.getUrlImageMedium());
+                    newFestival.setThumbnail_image_url(goabaseParty.getUrlImageFull());
                     Festival createdFestival = festivalRepository.save(newFestival);
 
                     FestivalDetail newFestivalDetail = new FestivalDetail();
