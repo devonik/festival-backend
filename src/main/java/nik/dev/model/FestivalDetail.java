@@ -11,7 +11,7 @@ public class FestivalDetail {
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		Long festival_detail_id;
 		Long festival_detail_images_id;
-		Long festival_id;
+		Long festivalId;
 		String description;
 		String homepage_url;
 		String ticket_url;
@@ -24,7 +24,7 @@ public class FestivalDetail {
 
 		public FestivalDetail(Long festival_detail_id, 
 							  Long festival_detail_images_id, 
-							  Long festival_id, 
+							  Long festivalId,
 							  String description,
 							  String homepage_url, 
 							  String ticket_url,
@@ -33,7 +33,7 @@ public class FestivalDetail {
 							  String syncStatus) {
 			this.festival_detail_id = festival_detail_id;
 			this.festival_detail_images_id = festival_detail_images_id;
-			this.festival_id = festival_id;
+			this.festivalId = festivalId;
 			this.description = description;
 			this.homepage_url = homepage_url;
 			this.ticket_url = ticket_url;
@@ -55,12 +55,12 @@ public class FestivalDetail {
 			this.festival_detail_images_id = festival_detail_images_id;
 		}
 
-		public Long getFestival_id() {
-			return festival_id;
+		public Long getFestivalId() {
+			return festivalId;
 		}
 
-		public void setFestival_id(Long festival_id) {
-			this.festival_id = festival_id;
+		public void setFestivalId(Long festivalId) {
+			this.festivalId = festivalId;
 		}
 
 		public String getDescription() {

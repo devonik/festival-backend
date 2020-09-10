@@ -60,6 +60,14 @@ public class GoabaseService {
                         festivalRepository.delete(festival.get());
                     } else {
                         //Festival is present - need to update
+                        FestivalDetail festivalDetail = null;
+                        Optional<FestivalDetail> existingFestivalDetail = festivalDetailRepository.findByFestivalId(festival.get().getFestival_id());
+                        if(existingFestivalDetail.isPresent()){
+                            festivalDetail = existingFestivalDetail.get();
+                            if(festival.get().getFestival_detail_id() == null ) festival.get().setFestival_detail_id(existingFestivalDetail.get().getFestival_detail_id());
+                        }else{
+                            festivalDetail = new FestivalDetail();
+                        }
                         festival.get().setGoabaseId(goabaseParty.getId());
                         festival.get().setName(goabaseParty.getNameParty());
                         festival.get().setDatum_start(startDate);
@@ -67,27 +75,16 @@ public class GoabaseService {
                         festival.get().setThumbnail_image_url(goabaseParty.getUrlImageMedium());
                         Festival updatedFestival = festivalRepository.save(festival.get());
 
-                        FestivalDetail festivalDetail = null;
+                        String homepageUrl = null;
+                        if(goabaseParty.getUrlOrganizer() != null) homepageUrl = "<a href='"+goabaseParty.getUrlOrganizer()+"'>Homepage</a>";
+                        if(goabaseParty.getUrlOrganizer() == null && goabaseParty.getUrlPartyHtml() != null) homepageUrl = "<a href='"+goabaseParty.getUrlPartyHtml()+"'>Homepage</a>";
 
-                        if(festival.get().getFestival_detail_id() == null ) festivalDetail = new FestivalDetail();
-                        else {
-                            Optional<FestivalDetail> existingFestivalDetail = festivalDetailRepository.findById(festival.get().getFestival_detail_id());
-                            if(existingFestivalDetail.isPresent()) festivalDetail = existingFestivalDetail.get();
-                        }
+                        festivalDetail.setFestivalId(updatedFestival.getFestival_id());
+                        festivalDetail.setGeoLatitude(Double.parseDouble(goabaseParty.getGeoLat()));
+                        festivalDetail.setGeoLongitude(Double.parseDouble(goabaseParty.getGeoLon()));
+                        festivalDetail.setHomepage_url(homepageUrl);
 
-                        if(festivalDetail != null){
-                            String homepageUrl = null;
-                            if(goabaseParty.getUrlOrganizer() != null) homepageUrl = "<a href='"+goabaseParty.getUrlOrganizer()+"'>Homepage</a>";
-                            if(goabaseParty.getUrlOrganizer() == null && goabaseParty.getUrlPartyHtml() != null) homepageUrl = "<a href='"+goabaseParty.getUrlPartyHtml()+"'>Homepage</a>";
-
-                            festivalDetail.setFestival_id(updatedFestival.getFestival_id());
-                            festivalDetail.setGeoLatitude(Double.parseDouble(goabaseParty.getGeoLat()));
-                            festivalDetail.setGeoLongitude(Double.parseDouble(goabaseParty.getGeoLon()));
-                            festivalDetail.setHomepage_url(homepageUrl);
-
-                            festivalDetailRepository.save(festivalDetail);
-
-                        }
+                        festivalDetailRepository.save(festivalDetail);
 
                     }
 
@@ -106,7 +103,7 @@ public class GoabaseService {
                     if(goabaseParty.getUrlOrganizer() != null) homepageUrl = goabaseParty.getUrlOrganizer();
                     if(goabaseParty.getUrlOrganizer() == null && goabaseParty.getUrlPartyHtml() != null) homepageUrl = goabaseParty.getUrlPartyHtml();
 
-                    newFestivalDetail.setFestival_id(createdFestival.getFestival_id());
+                    newFestivalDetail.setFestivalId(createdFestival.getFestival_id());
                     newFestivalDetail.setGeoLatitude(Double.parseDouble(goabaseParty.getGeoLat()));
                     newFestivalDetail.setGeoLongitude(Double.parseDouble(goabaseParty.getGeoLon()));
                     newFestivalDetail.setHomepage_url(homepageUrl);

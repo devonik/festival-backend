@@ -50,7 +50,7 @@ public class FestivalDetailController {
 	@RequestMapping(value="festivalDetails/{id}", method = RequestMethod.PUT)
 	public FestivalDetail update(@RequestBody FestivalDetail festivalDetail) {
 		Optional<FestivalDetail> existingFestivalDetail = festivalDetailRepository.findById(festivalDetail.getFestival_detail_id());
-		Optional<Festival> existingFestival = festivalRepository.findById(festivalDetail.getFestival_id());
+		Optional<Festival> existingFestival = festivalRepository.findById(festivalDetail.getFestivalId());
 		List<String> changedFields = new ArrayList<String>();
 
 		if(festivalDetail.getDescription() != null &&
