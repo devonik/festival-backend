@@ -108,11 +108,11 @@ public class GoabaseService {
                     newFestivalDetail.setGeoLongitude(Double.parseDouble(goabaseParty.getGeoLon()));
                     newFestivalDetail.setHomepage_url(homepageUrl);
 
-                    FestivalDetail festivalDetail = festivalDetailRepository.save(newFestivalDetail);
+                    FestivalDetail createdFestivalDetail = festivalDetailRepository.save(newFestivalDetail);
 
-                    if(festivalDetail.getFestival_detail_id() == null){
+                    if(createdFestival.getFestival_detail_id() == null){
 
-                        createdFestival.setFestival_detail_id(festivalDetail.getFestival_detail_id());
+                        createdFestival.setFestival_detail_id(createdFestivalDetail.getFestival_detail_id());
                         festivalRepository.save(createdFestival);
                     }
                 }
