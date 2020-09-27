@@ -53,7 +53,7 @@ public class GoabaseService {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
             try {
                 Date startDate = formatter.parse(goabaseParty.getDateStart());
-                Date endDate = formatter.parse(goabaseParty.getDateStart());
+                Date endDate = formatter.parse(goabaseParty.getDateEnd());
 
                 if (festival.isPresent()) {
                     if (goabaseParty.getNameStatus().equals("Cancelled")) {
