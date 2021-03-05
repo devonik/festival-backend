@@ -10,7 +10,7 @@ public class Constants {
 	public static final String WALDFRIEDEN_WONDERLAND_TICKET_URL = "https://tickets.wald-frieden.de/waldfrieden-wonderland-festival";
 	public static final String FORREST_EXPLOSION_TICKET_URL = "http://www.forrest-explosion.de/";
 	public static final String ANTARIS_TICKET_URL = "https://antaris-project.ebtix.de/event/MVJRZN/shop/index?no_title=true&no_image=true&ascale=true";
-	public static final String VOOV_TICKET_URL = "https://voov.ticket.io/jet2tklr/?";
+	public static final String VOOV_TICKET_URL = "https://voov.ticket.io/e4ladf4d/?";
 	public static final String SIMSALABOOM_TICKET_URL = "https://tickets.ssb-festival.de/SSBoom/2021/w/UUrFg1mLiIERbZH4/";
 	public static final String SHINING_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=125596&point_of_sale_id=16754";
 	public static final String BACHBLYTEN_TICKET_URL = "https://frontoffice.paylogic.nl/?event_id=134098&point_of_sale_id=19023";
