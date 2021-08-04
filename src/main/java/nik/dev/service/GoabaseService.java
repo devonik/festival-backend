@@ -89,13 +89,11 @@ public class GoabaseService {
                     festivalDetail.setGeoLatitude(Double.parseDouble(goabasePartyDetail.getGeoLat()));
                     festivalDetail.setGeoLongitude(Double.parseDouble(goabasePartyDetail.getGeoLon()));
                     try {
-                        String description = StringEscapeUtils.escapeJava(
-                                goabasePartyDetail.getTextMore() +
-                                        "\n\nWird organisiert von " +
-                                        goabasePartyDetail.getNameOrganizer() +
-                                        "\n" +
-                                        goabasePartyDetail.getTextOrganizer());
-                        festivalDetail.setDescription(description);
+                        String description = goabasePartyDetail.getTextMore();
+                        if(goabasePartyDetail.getNameOrganizer() != null) description += "\n\nWird organisiert von "+goabasePartyDetail.getNameOrganizer();
+                        if(goabasePartyDetail.getTextOrganizer() != null) description += "\n"+goabasePartyDetail.getTextOrganizer();
+                        if(goabasePartyDetail.getTextEntryFee() != null) description+= "\n\n\nEintritt\n\n"+goabasePartyDetail.getTextEntryFee();
+                        festivalDetail.setDescription(StringEscapeUtils.escapeJava(description));
                     } catch (Exception ex) {
                         System.out.println("ERROR - Could not extract goabase description: " + ex.getMessage());
                     }
